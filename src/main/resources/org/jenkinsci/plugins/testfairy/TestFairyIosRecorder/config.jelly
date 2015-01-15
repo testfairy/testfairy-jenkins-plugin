@@ -1,0 +1,90 @@
+<j:jelly xmlns:j="jelly:core"
+	xmlns:st="jelly:stapler"
+	xmlns:d="jelly:define"
+	xmlns:l="/lib/layout"
+	xmlns:t="/lib/hudson"
+	xmlns:f="/lib/form" >
+
+	<f:entry title="TestFairy API Key" field="apiKey" description="Put your TestFairy API_KEY here. Find it in your TestFairy account settings.">
+		<f:textbox />
+	</f:entry>
+
+	<f:entry title="Path To App file (.ipa)" field="appFile"> 
+		<f:textbox />
+	</f:entry>
+
+	<f:entry title="Path To .dSYM.zip file (optional)" field="mappingFile">
+		<f:textbox />
+	</f:entry>
+
+	<f:entry title="Tester groups to notify (optional)" field="testersGroups">
+		<f:textbox />
+	</f:entry>
+
+	<f:entry title="Send email to testers" field="notifyTesters">
+		<f:checkbox />
+	</f:entry>
+
+	<f:entry title="Automatic update" field="autoUpdate">
+		<f:checkbox />
+	</f:entry>
+
+	<f:advanced>
+		<f:section title="Advanced Project Options">
+
+			<f:section title="Session">
+
+				<f:entry title="Max duration" field="maxDuration" >
+					<f:select />
+				</f:entry>
+
+				<f:entry title="Record on background" field="recordOnBackground">
+					<f:checkbox />
+				</f:entry>
+
+				<f:entry title="Record data only in wifi" field="dataOnlyWifi">
+					<f:checkbox />
+				</f:entry>
+			</f:section>
+
+			<f:section title="Video">
+
+				<f:entry title="Record video" field="isVideoEnabled">
+					<f:checkbox default="true"/>
+				</f:entry>
+
+				<f:entry title="Screenshot interval" field="screenshotInterval">
+					<f:select />
+				</f:entry>
+
+				<f:entry title="Video quality" field="videoQuality">
+					<f:select />
+				</f:entry>
+
+			</f:section>
+
+			<f:section title="Metrics">
+
+				<f:entry title="CPU" field="cpu">
+					<f:checkbox default="true"/>
+				</f:entry>
+
+				<f:entry title="Memory" field="memory">
+					<f:checkbox default="true"/>
+				</f:entry>
+
+				<f:entry title="Application logs" field="logs">
+					<f:checkbox default="true"/>
+				</f:entry>
+
+			</f:section>
+
+			<f:section title="Options">
+				<f:entry title="Advanced (optional)" field="advancedOptions">
+					<f:textbox />
+				</f:entry>
+			</f:section>
+
+		</f:section>
+	</f:advanced>
+</j:jelly>

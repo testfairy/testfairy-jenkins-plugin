@@ -1,0 +1,23 @@
+<j:jelly xmlns:j="jelly:core"
+	xmlns:st="jelly:stapler"
+	xmlns:d="jelly:define"
+	xmlns:l="/lib/layout"
+	xmlns:t="/lib/hudson"
+	xmlns:f="/lib/form">
+
+	<f:section
+		title="TestFairy Android Environment" >
+
+		<f:entry title="zip full path" field="zipPath">
+			<f:textbox default="zip" />
+		</f:entry>
+
+		<f:entry title="jarsigner full path" field="jarsignerPath">
+			<f:textbox default="jarsigner" />
+		</f:entry>
+
+		<f:entry title="zipalign full path" field="zipalignPath">
+			<f:textbox default="zipalign" />
+		</f:entry>
+	</f:section>
+</j:jelly>
