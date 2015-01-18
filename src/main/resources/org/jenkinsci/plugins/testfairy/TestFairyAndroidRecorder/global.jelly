@@ -16,7 +16,8 @@
 			<f:textbox default="jarsigner" />
 		</f:entry>
 
-		<f:entry title="zipalign full path" field="zipalignPath">
+		<f:entry title="zipalign full path" field="zipalignPath"
+			description="zipalign is usually located in build-tools in the Android SDK directory">
 			<f:textbox default="zipalign" />
 		</f:entry>
 	</f:section>
