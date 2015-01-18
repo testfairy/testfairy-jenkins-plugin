@@ -44,20 +44,18 @@
 	</f:entry >
 
 	<f:entry title="Tester groups to notify (optional)"
-		field="testersGroups"
-		help="placeholder" >
+		field="testersGroups" >
 		<f:textbox />
 	</f:entry >
 
 	<f:entry title="Send email with changelog to testers"
-		field="notifyTesters"
-		help="notify the testers on a new build, include the changelog" >
+		field="notifyTesters">
+		<!--help="notify the testers on a new build, include the changelog"-->
 		<f:checkbox />
 	</f:entry >
 
 	<f:entry title="Automatic update"
-		field="autoUpdate"
-		help="placeholder" >
+		field="autoUpdate" >
 		<f:checkbox />
 	</f:entry >
 
@@ -70,14 +68,12 @@
 				</f:entry >
 
 				<f:entry title="Record on background"
-					field="recordOnBackground"
-					help="placeholder" >
+					field="recordOnBackground" >
 					<f:checkbox />
 				</f:entry >
 
 				<f:entry title="Record data only in wifi"
-					field="dataOnlyWifi"
-					help="placeholder" >
+					field="dataOnlyWifi" >
 					<f:checkbox />
 				</f:entry >
 			</f:section >
@@ -85,20 +81,17 @@
 			<f:section title="Video" >
 
 				<f:entry title="Record video"
-					field="isVideoEnabled"
-					help="placeholder" >
+					field="isVideoEnabled" >
 					<f:checkbox default="true"/>
 				</f:entry >
 
 				<f:entry title="Screenshot interval"
-					field="screenshotInterval"
-					help="placeholder" >
+					field="screenshotInterval" >
 					<f:select />
 				</f:entry >
 
 				<f:entry title="Video quality"
-					field="videoQuality"
-					help="placeholder" >
+					field="videoQuality" >
 					<f:select />
 				</f:entry >
 
