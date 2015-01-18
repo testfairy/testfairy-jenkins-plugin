@@ -71,6 +71,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			EnvVars vars = build.getEnvironment(listener);
 
 			Utils.setJenkinsUrl(vars);
+			Uploader.setServer(vars, listener.getLogger());
 			appFile = Utils.getApkFilePath(appFile, environment, vars);
 			mappingFile = Utils.getFilePath(mappingFile, vars, false);
 

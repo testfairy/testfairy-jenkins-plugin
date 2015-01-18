@@ -47,6 +47,8 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			EnvVars vars = build.getEnvironment(listener);
 
 			Utils.setJenkinsUrl(vars);
+			Uploader.setServer(vars, listener.getLogger());
+
 			appFile = Utils.getFilePath(appFile, vars, true);
 			mappingFile = Utils.getFilePath(mappingFile, vars, false);
 

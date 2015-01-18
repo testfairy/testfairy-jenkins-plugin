@@ -5,6 +5,7 @@ import com.testfairy.uploader.command.JarSignerCommand;
 import com.testfairy.uploader.command.VerifyCommand;
 import com.testfairy.uploader.command.ZipAlignCommand;
 import com.testfairy.uploader.command.ZipCommand;
+import hudson.EnvVars;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpHost;
 import org.apache.commons.io.IOUtils;
@@ -30,11 +31,10 @@ import java.util.Scanner;
 
 public class Uploader {
 
-	public static String VERSION = "0.7";
-	private static final String SERVER = "http://api.testfairy.com";
-	private static final String SERVER_DEV = "http://giltsl.gs.dev.testfairy.net";
-	private static final String UPLOAD_URL = SERVER + "/api/upload";
-	private static final String UPLOAD_SIGNED_URL = SERVER + "/api/upload-signed";
+	public static String VERSION = "0.7.1";
+	private static String SERVER = "http://api.testfairy.com";
+	private static final String UPLOAD_URL_PATH = "/api/upload";
+	private static final String UPLOAD_SIGNED_URL_PATH = "/api/upload-signed";
 
 	public static final String USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
 	public static String JENKINS_URL = "[jenkinsURL]/";
@@ -139,7 +139,7 @@ public class Uploader {
 
 		logger.println("Uploading App...");
 		MultipartEntity entity = buildEntity(recorder, apkFilename , changeLog);
-		return post(UPLOAD_URL, entity);
+		return post(SERVER + UPLOAD_URL_PATH, entity);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class Uploader {
 		addEntity(entity, "notify", recorder.getNotifyTesters());
 		addEntity(entity, "auto-update", recorder.getAutoUpdate());
 
-		return post(UPLOAD_SIGNED_URL, entity);
+		return post(SERVER + UPLOAD_SIGNED_URL_PATH, entity);
 	}
 
 	/**
@@ -305,5 +305,14 @@ public class Uploader {
 		}
 		logger.println("Output: " + outputStringToReturn);
 		return outputStringToReturn;
+	}
+
+	public static void setServer(EnvVars vars, PrintStream logger) {
+
+		String server = vars.expand("$TESTFAIRY_UPLOADER_SERVER");
+		if (server != null && !server.isEmpty() && !server.equals("$TESTFAIRY_UPLOADER_SERVER")) {
+			SERVER = server;
+			logger.println("The server will be  " + SERVER);
+		}
 	}
 }
