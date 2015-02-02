@@ -78,7 +78,7 @@ public class Utils {
 		if(Validation.isValidAPK(testFairyEnvironment.jarsignerPath, toReturn)) {
 			return toReturn;
 		} else {
-			throw new TestFairyException("Can't validate your apk, Please checkProgram if " + toReturn +" exist");
+			throw new TestFairyException("Can't validate your apk, the following command failed: jarsigner -verify " + toReturn);
 		}
 	}
 
