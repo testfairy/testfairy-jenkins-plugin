@@ -94,7 +94,7 @@ public class Utils {
 		if(isFileExists(toReturn)) {
 			return toReturn;
 		} else if (required) {
-			throw new TestFairyException("Can't find a file " + toReturn);
+			throw new TestFairyException("Can't find a file " + toReturn + " the original path was " + file);
 		} else {
 			return null;
 		}

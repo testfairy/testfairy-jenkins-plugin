@@ -189,10 +189,10 @@ public class Uploader {
 		addEntity(entity, "advanced-options",  recorder.getAdvancedOptions());
 
 		addEntity(entity, "data-only-wifi", recorder.getDataOnlyWifi());
-		addEntity(entity, "auto-update", recorder.getAutoUpdate());
+//		addEntity(entity, "auto-update", recorder.getAutoUpdate());
 		addEntity(entity, "record-on-background", recorder.getRecordOnBackground()); // enable record on background option
 		addEntity(entity, "video", recorder.getIsVideoEnabled());
-		addEntity(entity, "notify", recorder.getNotifyTesters());
+//		addEntity(entity, "notify", recorder.getNotifyTesters());
 
 		//todo addEntity(entity, "icon-watermark", recorder.);
 
