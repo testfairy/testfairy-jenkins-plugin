@@ -24,14 +24,14 @@
 	<artifactId>testfairy</artifactId>
 	<name>TestFairy Plugin</name>
 	<url>http://wiki.jenkins-ci.org/display/JENKINS/TestFairy+Plugin</url>
-	<version>2.2.5-beta</version>
+	<version>2.2.6-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 
 	<scm>
 		<connection>scm:git:ssh://github.com/jenkinsci/testfairy-plugin.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/testfairy-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/testfairy-plugin</url>
-	  <tag>testfairy-2.2.5-beta</tag>
+	  <tag>testfairy-2.3</tag>
   </scm>
 
 	<licenses>
