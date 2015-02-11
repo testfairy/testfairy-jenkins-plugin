@@ -21,7 +21,7 @@
 	</developers>
 
 	<groupId>org.jenkins-ci.plugins</groupId>
-	<artifactId>testfairy</artifactId>
+	<artifactId>TestFairy</artifactId>
 	<name>TestFairy Plugin</name>
 	<url>http://wiki.jenkins-ci.org/display/JENKINS/TestFairy+Plugin</url>
 	<version>2.2.6-SNAPSHOT</version>
@@ -31,8 +31,7 @@
 		<connection>scm:git:ssh://github.com/jenkinsci/testfairy-plugin.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/testfairy-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/testfairy-plugin</url>
-	  <tag>testfairy-2.3</tag>
-  </scm>
+	</scm>
 
 	<licenses>
 		<license>
