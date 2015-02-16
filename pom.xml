@@ -21,7 +21,7 @@
 	</developers>
 
 	<groupId>org.jenkins-ci.plugins</groupId>
-	<artifactId>TestFairy</artifactId>
+	<artifactId>testfairy</artifactId>
 	<name>TestFairy Plugin</name>
 	<url>http://wiki.jenkins-ci.org/display/JENKINS/TestFairy+Plugin</url>
 	<version>2.3.2-SNAPSHOT</version>
