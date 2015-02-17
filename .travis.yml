@@ -6,6 +6,6 @@ jdk:
 script: 
  # - mvn install
   - ls
-  - mvn hpi:run
+  - mvn hpi:run &
   - wget "http://localhost:8080/jnlpJars/jenkins-cli.jar"
   - ls
