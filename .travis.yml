@@ -1,6 +1,12 @@
 language: java
 jdk:
   - oraclejdk7
-  - openjdk7
-  
-script: mvn install
+  # - openjdk7
+
+script: 
+ # - mvn install
+  - ls
+  - mvn hpi:run &
+  - sleep 5m
+  - wget http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar
+  - ls
