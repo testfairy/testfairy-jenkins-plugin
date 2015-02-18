@@ -73,14 +73,14 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			Utils.setJenkinsUrl(vars);
 			Uploader.setServer(vars, listener.getLogger());
 			appFile = Utils.getApkFilePath(appFile, environment, vars);
-			mappingFile = Utils.getFilePath(mappingFile, vars, false);
+			mappingFile = Utils.getFilePath(mappingFile, "symbols file", vars, false);
 
 			JSONObject response = uploader.uploadApp(appFile, changeLog, this);
 
 			String instrumentedUrl = response.getString("instrumented_url");
 			String instrumentedAppPath = Utils.downloadFromUrl(instrumentedUrl, listener.getLogger());
 
-			keystorePath = Utils.getFilePath(keystorePath, vars, true);
+			keystorePath = Utils.getFilePath(keystorePath, "keystore file" ,vars, true);
 			String signedFilePath = uploader.signingApk(environment, instrumentedAppPath, this);
 
 			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, this);
