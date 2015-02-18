@@ -3,4 +3,9 @@ jdk:
   - oraclejdk7
   - openjdk7
   
-script: mvn install
+script: 
+  mvn install
+  ls
+  mvn hpi:run
+  wget "http://localhost:8080/jnlpJars/jenkins-cli.jar"
+  ls
