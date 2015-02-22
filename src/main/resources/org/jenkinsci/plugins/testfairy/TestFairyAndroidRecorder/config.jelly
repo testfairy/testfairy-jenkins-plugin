@@ -43,6 +43,11 @@
 		<f:textbox default="androiddebugkey"/>
 	</f:entry >
 
+	<f:entry title="keypass"
+		field="keypass" >
+		<f:textbox default=""/>
+	</f:entry >
+
 	<f:entry title="Tester groups to notify (optional)"
 		field="testersGroups" >
 		<f:textbox />

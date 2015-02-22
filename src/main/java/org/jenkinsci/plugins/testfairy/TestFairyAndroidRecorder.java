@@ -26,13 +26,14 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 	private String keystorePath;
 	private final String storepass;
 	private final String alias;
+	private final String keypass;
 
 	@DataBoundConstructor
 	public TestFairyAndroidRecorder(String apiKey, String appFile, String mappingFile,
 					String testersGroups, Boolean notifyTesters, Boolean autoUpdate,
 					String maxDuration, Boolean recordOnBackground, Boolean dataOnlyWifi,
 					Boolean isVideoEnabled, String screenshotInterval, String videoQuality, String advancedOptions,
-					String keystorePath, String storepass, String alias,
+					String keystorePath, String storepass, String alias, String keypass,
 					Boolean cpu, Boolean memory, Boolean network,
 					Boolean logs, Boolean phoneSignal, Boolean wifi,
 					Boolean gps, Boolean battery, Boolean openGl
@@ -44,6 +45,8 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		this.keystorePath = keystorePath;
 		this.storepass = storepass;
 		this.alias = alias;
+		this.keypass = keypass;
+
 	}
 
 
@@ -58,6 +61,10 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
 	public String getAlias() {
 		return alias;
+	}
+
+	public String getKeypass() {
+		return keypass;
 	}
 
 	@Override
@@ -75,12 +82,13 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			appFile = Utils.getApkFilePath(appFile, environment, vars);
 			mappingFile = Utils.getFilePath(mappingFile, "symbols file", vars, false);
 
+			checkKeystoreParams(vars);
+
 			JSONObject response = uploader.uploadApp(appFile, changeLog, this);
 
 			String instrumentedUrl = response.getString("instrumented_url");
 			String instrumentedAppPath = Utils.downloadFromUrl(instrumentedUrl, listener.getLogger());
 
-			keystorePath = Utils.getFilePath(keystorePath, "keystore file" ,vars, true);
 			String signedFilePath = uploader.signingApk(environment, instrumentedAppPath, this);
 
 			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, this);
@@ -94,6 +102,21 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			return false;
 		}
 
+	}
+
+	private void checkKeystoreParams(EnvVars vars) throws TestFairyException {
+
+		keystorePath = Utils.getFilePath(keystorePath, "keystore file" ,vars, true);
+
+		if (getKeystorePath() == null || getKeystorePath().isEmpty()) {
+			throw new TestFairyException("Missing Keystore file");
+		}
+		if (getStorepass() == null || getStorepass().isEmpty()) {
+			throw new TestFairyException("Missing Storepass");
+		}
+		if (getAlias() == null || getAlias().isEmpty()) {
+			throw new TestFairyException("Missing Alias");
+		}
 	}
 
 	@Override

@@ -290,7 +290,7 @@ public class Uploader {
 		return apkFilenameZipAlign;
 	}
 
-	private String exec(List<String> command) throws IOException, InterruptedException {
+	private String exec(List<String> command) throws IOException, InterruptedException , TestFairyException{
 
 		logger.println("exec command: " + command);
 		String outputString;
@@ -304,6 +304,11 @@ public class Uploader {
 			outputStringToReturn = outputStringToReturn + outputString;
 		}
 		logger.println("Output: " + outputStringToReturn);
+
+		logger.println("exitValue(): " + process.exitValue());
+		if (process.exitValue() > 0) {
+			throw new TestFairyException((outputStringToReturn.isEmpty()) ? "Error on " + command : outputStringToReturn);
+		}
 		return outputStringToReturn;
 	}
 
