@@ -50,7 +50,7 @@ installJenkins() {
 installJenkins
 
 ls ~/.jenkins/war/WEB-INF/jenkins-cli.jar
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin TestFairy.hpi
+java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin ././../target/TestFairy.hpi
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ restart
 sleep 15
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-plugins

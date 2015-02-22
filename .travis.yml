@@ -1,12 +1,23 @@
-language: java
+language: android
+android:
+  components:
+    - platform-tools
+    - build-tools-19.1.0
 jdk:
   - oraclejdk7
   # - openjdk7
 
-script: 
- # - mvn install
-  - ls
-  - mvn hpi:run &
-  - sleep 5m
-  - wget http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar
-  - ls
+script:
+    - echo $ANDROID_HOME
+    - find $ANDROID_HOME -name zipalign
+    - sudo cp $ANDROID_HOME/build-tools/19.1.0/zipalign /bin/
+    - which zip
+    - which zipalign
+    - which jarsigner
+    - cd test
+    - bash ./jenkins_test.sh
+    - cd ..
+
+deploy:
+  on:
+    all_branches: true
