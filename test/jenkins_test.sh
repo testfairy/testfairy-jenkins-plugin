@@ -29,6 +29,7 @@ build() {
 
 
 mvnInstall() {
+    echo mvnInstall...
     cd /home/travis/build/testfairy/testfairy-jenkins-plugin
     mvn install
     cp target/TestFairy.hpi test/
@@ -41,10 +42,12 @@ mvnInstall() {
 }
 
 installJenkins() {
+    echo installJenkins...
     cd /home/travis/build/testfairy/testfairy-jenkins-plugin/test
     curl -Lo jenkins.war http://mirrors.jenkins-ci.org/war/latest/jenkins.war
     ls;
 
+    echo run jenkins.war and sleep for 45 sec....
     java -jar jenkins.war&
     sleep 45
 
