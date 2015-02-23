@@ -29,15 +29,15 @@ build() {
 
 
 mvnInstall() {
-    cd /Users/gilt/apps/testfairy_git/plugins/testfairy-jenkins-plugin/
+    cd /home/travis/build/testfairy/testfairy-jenkins-plugin
     mvn install
-    cd target
-    cp TestFairy.hpi /Users/gilt/dev/android/ham-github/jenkins
-    cd /Users/gilt/dev/android/ham-github/jenkins
+    cp target/TestFairy.hpi test/
+    cd test
 
 }
 
 installJenkins() {
+    cd /home/travis/build/testfairy/testfairy-jenkins-plugin/test
     curl -Lo jenkins.war http://mirrors.jenkins-ci.org/war/latest/jenkins.war
     ls;
 
@@ -46,11 +46,13 @@ installJenkins() {
 
 }
 
-#mvnInstall
+mvnInstall
 installJenkins
 
+/home/travis/build/testfairy/testfairy-jenkins-plugin/test
+
 ls ~/.jenkins/war/WEB-INF/jenkins-cli.jar
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin ././../target/TestFairy.hpi
+java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin TestFairy.hpi
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ restart
 sleep 15
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-plugins
