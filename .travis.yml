@@ -5,7 +5,11 @@ android:
     - build-tools-19.1.0
 jdk:
   - oraclejdk7
-  # - openjdk7
+  - openjdk7
+
+cache:
+  directories:
+    - $HOME/.m2
 
 script:
     - echo $ANDROID_HOME
@@ -17,6 +21,3 @@ script:
     - cd test
     - bash ./jenkins_test.sh
     - cd ..
-
-  on:
-    all_branches: true

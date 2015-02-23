@@ -39,6 +39,7 @@ public class UploaderTest {
 	private static String keystorePath = "/Users/gilt/dev/android/command-line-uploader/debug.keystore";
 	private static String storepass = "android";
 	private static String alias = "androiddebugkey";
+	private static String keypass = "";
 
 
 	private static String apiKey = "c502ea9cc04d83a2aa4050fe13812c8dc139140d";
@@ -55,7 +56,7 @@ public class UploaderTest {
 		try {
 
 			TestFairyAndroidRecorder t = new TestFairyAndroidRecorder(apiKey, appFile, mappingFile, testersGroups, notifyTesters, autoUpdate, maxDuration,
-			    recordOnBackground, dataOnlyWifi, isVideoEnabled, screenshotInterval, videoQuality, advancedOptions, keystorePath, storepass, alias, cpu, memory, logs, network, phoneSignal, wifi, gps, battery, openGl);
+			    recordOnBackground, dataOnlyWifi, isVideoEnabled, screenshotInterval, videoQuality, advancedOptions, keystorePath, storepass, alias,keypass ,cpu, memory, logs, network, phoneSignal, wifi, gps, battery, openGl);
 
 			Uploader uploader = new Uploader(System.out);
 			Uploader.VERSION = Uploader.VERSION + "-test";

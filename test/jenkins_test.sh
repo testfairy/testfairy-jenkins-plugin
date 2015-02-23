@@ -29,34 +29,45 @@ build() {
 
 
 mvnInstall() {
-    cd /Users/gilt/apps/testfairy_git/plugins/testfairy-jenkins-plugin/
+    echo mvnInstall...
+    cd $pluginPath
     mvn install
-    cd target
-    cp TestFairy.hpi /Users/gilt/dev/android/ham-github/jenkins
-    cd /Users/gilt/dev/android/ham-github/jenkins
+    cp $pluginPath/target/TestFairy.hpi $pluginPath/test/
+    cd $pluginPath/test/
+    if [ ! -f TestFairy.hpi ]; then
+        echo "TestFairy.hpi File not found!, the build probably failed"
+        exit 2
+    fi
+
 
 }
 
 installJenkins() {
+    echo installJenkins...
+    cd $pluginPath/test/
     curl -Lo jenkins.war http://mirrors.jenkins-ci.org/war/latest/jenkins.war
     ls;
 
+    echo run jenkins.war and sleep for 45 sec....
     java -jar jenkins.war&
     sleep 45
 
 }
 
-#mvnInstall
+pluginPath=/home/travis/build/testfairy/testfairy-jenkins-plugin
+
 installJenkins
+mvnInstall
 
 ls ~/.jenkins/war/WEB-INF/jenkins-cli.jar
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin ././../target/TestFairy.hpi
+java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin $pluginPath/test/TestFairy.hpi
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ restart
 sleep 15
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-plugins
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ create-job JenkinsTest < JenkinsTest.xml
+java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ create-job JenkinsTest < $pluginPath/test/JenkinsTest.xml
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-jobs
 
+cd $pluginPath/test
 
 dname=("CN=common_name" "OU=organizational_unit" "O=organization" "L=locality" "S=state" "C=US")
 
