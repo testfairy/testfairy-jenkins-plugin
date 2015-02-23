@@ -44,7 +44,7 @@ mvnInstall() {
 
 installJenkins() {
     echo installJenkins...
-    cd /home/travis/build/testfairy/testfairy-jenkins-plugin/test
+    cd $pluginPath/test/
     curl -Lo jenkins.war http://mirrors.jenkins-ci.org/war/latest/jenkins.war
     ls;
 
