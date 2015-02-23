@@ -30,14 +30,15 @@ build() {
 
 mvnInstall() {
     echo mvnInstall...
-    cd /home/travis/build/testfairy/testfairy-jenkins-plugin
+    cd $pluginPath
     mvn install
-    cp target/TestFairy.hpi test/
+    cp $pluginPath/target/TestFairy.hpi $pluginPath/test/
+    cd $pluginPath/test/
     if [ ! -f TestFairy.hpi ]; then
         echo "TestFairy.hpi File not found!, the build probably failed"
         exit 2
     fi
-    cd test
+
 
 }
 
@@ -53,19 +54,20 @@ installJenkins() {
 
 }
 
+pluginPath=/home/travis/build/testfairy/testfairy-jenkins-plugin
+
 mvnInstall
 installJenkins
 
-/home/travis/build/testfairy/testfairy-jenkins-plugin/test
-
 ls ~/.jenkins/war/WEB-INF/jenkins-cli.jar
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin TestFairy.hpi
+java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin $pluginPath/test/TestFairy.hpi
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ restart
 sleep 15
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-plugins
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ create-job JenkinsTest < JenkinsTest.xml
+java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ create-job JenkinsTest < $pluginPath/test/JenkinsTest.xml
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-jobs
 
+cd $pluginPath/test
 
 dname=("CN=common_name" "OU=organizational_unit" "O=organization" "L=locality" "S=state" "C=US")
 
