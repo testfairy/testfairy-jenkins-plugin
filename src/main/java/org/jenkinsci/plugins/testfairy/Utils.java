@@ -78,14 +78,14 @@ public class Utils {
 		if(Validation.isValidAPK(testFairyEnvironment.jarsignerPath, toReturn)) {
 			return toReturn;
 		} else {
-			throw new TestFairyException("Can't validate your apk, Please checkProgram if " + toReturn +" exist");
+			throw new TestFairyException("Can't validate your apk, the following command failed: jarsigner -verify " + toReturn);
 		}
 	}
 
-	public static String getFilePath(String file, EnvVars vars, Boolean required) throws TestFairyException {
+	public static String getFilePath(String file, String name, EnvVars vars, Boolean required) throws TestFairyException {
 		if (file == null || file.length() == 0){
 			if (required) {
-				throw new TestFairyException("Can't find a file " + file);
+				throw new TestFairyException("Can't find a " + name + " in " + file);
 			} else {
 				return null;
 			}
@@ -94,7 +94,7 @@ public class Utils {
 		if(isFileExists(toReturn)) {
 			return toReturn;
 		} else if (required) {
-			throw new TestFairyException("Can't find a file " + toReturn);
+			throw new TestFairyException("Can't find a " + name + " in " + toReturn + " the original path was " + file);
 		} else {
 			return null;
 		}

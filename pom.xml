@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
@@ -22,8 +23,8 @@
 
 	<groupId>org.jenkins-ci.plugins</groupId>
 	<artifactId>TestFairy</artifactId>
-	<name>TestFairy Plugin</name>
-	<url>http://wiki.jenkins-ci.org/display/JENKINS/TestFairy+Plugin</url>
+	<name >TestFairy Plugin</name >
+	<url >http://wiki.jenkins-ci.org/display/JENKINS/TestFairy+Plugin</url >
 	<version>2.4-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 
@@ -31,8 +32,7 @@
 		<connection>scm:git:ssh://github.com/jenkinsci/testfairy-plugin.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/testfairy-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/testfairy-plugin</url>
-	  <tag>HEAD</tag>
-  </scm>
+	</scm>
 
 	<licenses>
 		<license>
@@ -67,11 +67,11 @@
 			<artifactId>httpcore</artifactId>
 			<version>4.2.4</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpmime</artifactId>
-			<version>4.0.1</version>
-		</dependency>
+		<dependency >
+			<groupId >org.apache.httpcomponents</groupId >
+			<artifactId >httpmime</artifactId >
+			<version >4.0.1</version >
+		</dependency >
 
 	</dependencies>
 </project>

@@ -31,7 +31,7 @@ import java.util.Scanner;
 
 public class Uploader {
 
-	public static String VERSION = "2.0";
+	public static String VERSION = "2.4";
 	private static String SERVER = "http://api.testfairy.com";
 	private static final String UPLOAD_URL_PATH = "/api/upload";
 	private static final String UPLOAD_SIGNED_URL_PATH = "/api/upload-signed";
@@ -189,10 +189,10 @@ public class Uploader {
 		addEntity(entity, "advanced-options",  recorder.getAdvancedOptions());
 
 		addEntity(entity, "data-only-wifi", recorder.getDataOnlyWifi());
-		addEntity(entity, "auto-update", recorder.getAutoUpdate());
+//		addEntity(entity, "auto-update", recorder.getAutoUpdate());
 		addEntity(entity, "record-on-background", recorder.getRecordOnBackground()); // enable record on background option
 		addEntity(entity, "video", recorder.getIsVideoEnabled());
-		addEntity(entity, "notify", recorder.getNotifyTesters());
+//		addEntity(entity, "notify", recorder.getNotifyTesters());
 
 		//todo addEntity(entity, "icon-watermark", recorder.);
 
@@ -290,7 +290,7 @@ public class Uploader {
 		return apkFilenameZipAlign;
 	}
 
-	private String exec(List<String> command) throws IOException, InterruptedException {
+	private String exec(List<String> command) throws IOException, InterruptedException , TestFairyException{
 
 		logger.println("exec command: " + command);
 		String outputString;
@@ -304,6 +304,11 @@ public class Uploader {
 			outputStringToReturn = outputStringToReturn + outputString;
 		}
 		logger.println("Output: " + outputStringToReturn);
+
+		logger.println("exitValue(): " + process.exitValue());
+		if (process.exitValue() > 0) {
+			throw new TestFairyException((outputStringToReturn.isEmpty()) ? "Error on " + command : outputStringToReturn);
+		}
 		return outputStringToReturn;
 	}
 
