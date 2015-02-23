@@ -32,6 +32,10 @@ mvnInstall() {
     cd /home/travis/build/testfairy/testfairy-jenkins-plugin
     mvn install
     cp target/TestFairy.hpi test/
+    if [ ! -f TestFairy.hpi ]; then
+        echo "TestFairy.hpi File not found!, the build probably failed"
+        exit 2
+    fi
     cd test
 
 }

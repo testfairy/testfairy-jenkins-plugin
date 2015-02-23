@@ -14,6 +14,8 @@ script:
     - which zip
     - which zipalign
     - which jarsigner
+    - echo $user.home
+    - ls $user.home
     - cd test
     - bash ./jenkins_test.sh -h
     - cd ..
