@@ -15,7 +15,7 @@ script:
     - which zipalign
     - which jarsigner
     - cd test
-    - bash ./jenkins_test.sh
+    - bash ./jenkins_test.sh -h
     - cd ..
 
 deploy:
