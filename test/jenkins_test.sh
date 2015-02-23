@@ -56,8 +56,8 @@ installJenkins() {
 
 pluginPath=/home/travis/build/testfairy/testfairy-jenkins-plugin
 
-mvnInstall
 installJenkins
+mvnInstall
 
 ls ~/.jenkins/war/WEB-INF/jenkins-cli.jar
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin $pluginPath/test/TestFairy.hpi
