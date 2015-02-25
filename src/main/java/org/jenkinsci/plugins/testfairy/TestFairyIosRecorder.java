@@ -20,6 +20,8 @@ import org.kohsuke.stapler.StaplerRequest;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+import static hudson.Util.getHostName;
+
 public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 
@@ -39,23 +41,20 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 	@Override
 	public boolean perform(AbstractBuild build, Launcher launcher, final BuildListener listener) throws IOException, InterruptedException {
-
+		listener.getLogger().println("TestFairy Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 		try {
-			listener.getLogger().println("TestFairy Uploader... ");
-			Uploader upload = new Uploader(listener.getLogger());
 			String changeLog = Utils.extractChangeLog(build.getChangeSet());
 			EnvVars vars = build.getEnvironment(listener);
 
-			Utils.setJenkinsUrl(vars);
-			Uploader.setServer(vars, listener.getLogger());
+			try {
+				launcher.getChannel().call(new IosRemoteRecorder(listener, this, vars, changeLog));
 
-			appFile = Utils.getFilePath(appFile, "*.ipa", vars, true);
-			mappingFile = Utils.getFilePath(mappingFile, "symbols file", vars, false);
+			} catch (Throwable ue) {
 
-			JSONObject response = upload.uploadApp(appFile, changeLog, this);
-
-			//print the build url
-			listener.getLogger().println("Check the new build : " + response.getString("build_url"));
+				listener.getLogger().println("Throwable " + ue.getMessage());
+				ue.printStackTrace(listener.getLogger());
+				throw new TestFairyException(ue.getMessage());
+			}
 			return true;
 
 		} catch (TestFairyException e) {
@@ -63,6 +62,29 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			return false;
 		}
 	}
+
+	class IosRemoteRecorder extends RemoteRecorder {
+		public IosRemoteRecorder(BuildListener listener, TestFairyIosRecorder testFairyIosRecorder, EnvVars vars, String changeLog) {
+			super(listener, testFairyIosRecorder, vars, changeLog);
+		}
+
+		@Override
+		public JSONObject call() throws Throwable {
+
+			Utils.setJenkinsUrl(vars);
+			Uploader.setServer(vars, listener.getLogger());
+			Uploader upload = new Uploader(listener.getLogger(), version);
+
+			appFile = Utils.getFilePath(appFile, "*.ipa", vars, true);
+			mappingFile = Utils.getFilePath(mappingFile, "symbols file", vars, false);
+
+			JSONObject response = upload.uploadApp(appFile, changeLog, recorder);
+
+			//print the build url
+			listener.getLogger().println("Check the new build : " + response.getString("build_url"));
+			return response;
+		}
+	};
 
 	@Override
 	public DescriptorImpl getDescriptor() {
@@ -169,5 +191,9 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 
 	}
+
+
 }
+
+
 

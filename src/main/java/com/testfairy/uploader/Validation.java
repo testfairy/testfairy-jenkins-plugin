@@ -4,13 +4,14 @@ import hudson.util.FormValidation;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by gilt on 1/7/15.
  */
-public class Validation {
+public class Validation implements Serializable {
 
 
 	public static FormValidation checkApk(String jarsignerPath, String apkPath) {
@@ -65,7 +66,7 @@ public class Validation {
 	public static Boolean isValidProgram(String path, String name) throws TestFairyException {
 
 		if (path == null ) {
-			throw new TestFairyException("Wrong " + name + " path, Please checkProgram it on " + Uploader.JENKINS_URL + "configure (" + path + ")");
+			throw new TestFairyException("Wrong " + name + " path, Please check it on " + Uploader.JENKINS_URL + "configure (" + path + ")");
 		}
 		ArrayList<String> toVerify = new ArrayList<String>();
 		toVerify.add(path);
@@ -74,7 +75,7 @@ public class Validation {
 		if (out != null) {
 			return true;
 		} else {
-			throw new TestFairyException("Wrong " + name + " path, Please checkProgram it on " + Uploader.JENKINS_URL + "configure (" + path + ")");
+			throw new TestFairyException("Wrong " + name + " path, Please check it on " + Uploader.JENKINS_URL + "configure (" + path + ")");
 		}
 	}
 

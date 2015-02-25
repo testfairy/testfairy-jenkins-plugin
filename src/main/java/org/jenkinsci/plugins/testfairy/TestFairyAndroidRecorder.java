@@ -20,6 +20,9 @@ import org.kohsuke.stapler.StaplerRequest;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.io.Serializable;
+
+import static hudson.Util.getHostName;
 
 public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
@@ -69,13 +72,42 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
 	@Override
 	public boolean perform(AbstractBuild build, Launcher launcher, final BuildListener listener) throws InterruptedException, IOException {
-		listener.getLogger().println("TestFairy Uploader... ");
+		listener.getLogger().println("TestFairy Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 
 		try {
-			Uploader uploader = new Uploader(listener.getLogger());
-			AndroidBuildEnvironment environment = getDescriptor().getEnvironment();
 			String changeLog = Utils.extractChangeLog(build.getChangeSet());
 			EnvVars vars = build.getEnvironment(listener);
+			AndroidBuildEnvironment environment = getDescriptor().getEnvironment(launcher);
+
+			try {
+				launcher.getChannel().call(new AndroidRemoteRecorder(listener, this, vars, environment, changeLog));
+
+			} catch (Throwable ue) {
+				listener.getLogger().println("Throwable " + ue.getMessage());
+				ue.printStackTrace(listener.getLogger());
+				throw new TestFairyException(ue.getMessage());
+			}
+			return true;
+
+		} catch (TestFairyException e) {
+			listener.error(e.getMessage() + "\n");
+			e.printStackTrace(listener.getLogger());
+			return false;
+		}
+	}
+
+	class AndroidRemoteRecorder extends RemoteRecorder {
+		private final AndroidBuildEnvironment environment;
+
+		public AndroidRemoteRecorder(BuildListener listener, TestFairyAndroidRecorder androidRecorder, EnvVars vars, AndroidBuildEnvironment environment, String changeLog) {
+			super(listener, androidRecorder, vars, changeLog);
+			this.environment = environment;
+		}
+
+		@Override
+		public JSONObject call() throws Throwable {
+
+			Uploader uploader = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
 
 			Utils.setJenkinsUrl(vars);
 			Uploader.setServer(vars, listener.getLogger());
@@ -84,25 +116,20 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
 			checkKeystoreParams(vars);
 
-			JSONObject response = uploader.uploadApp(appFile, changeLog, this);
+			JSONObject response = uploader.uploadApp(appFile, changeLog, recorder);
 
 			String instrumentedUrl = response.getString("instrumented_url");
 			String instrumentedAppPath = Utils.downloadFromUrl(instrumentedUrl, listener.getLogger());
 
-			String signedFilePath = uploader.signingApk(environment, instrumentedAppPath, this);
+			String signedFilePath = uploader.signingApk(environment, instrumentedAppPath, (TestFairyAndroidRecorder)recorder);
 
-			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, this);
+			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, recorder);
 
 			//print the build url
 			listener.getLogger().println("Check the new build: " + responseSigned.getString("build_url"));
-			return true;
-
-		} catch (TestFairyException e) {
-			listener.error(e.getMessage() + "\n");
-			return false;
+			return responseSigned;
 		}
-
-	}
+	};
 
 	private void checkKeystoreParams(EnvVars vars) throws TestFairyException {
 
@@ -134,7 +161,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 	 * for the actual HTML fragment for the configuration screen.
 	 */
 	@Extension // This indicates to Jenkins that this is an implementation of an extension point.
-	public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
+	public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> implements Serializable {
 		/**
 		 * To persist global configuration information,
 		 * simply store it in a field and call save().
@@ -287,7 +314,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			return zipalignPath;
 		}
 
-		public AndroidBuildEnvironment getEnvironment() throws TestFairyException {
+		public AndroidBuildEnvironment getEnvironment(Launcher launcher) throws TestFairyException {
 
 //			//the default variables are only for display
 			if (zipPath == null) {
@@ -299,14 +326,26 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			if (zipalignPath == null) {
 				zipalignPath = "zipalign";
 			}
-			Validation.isValidProgram(zipPath, "zip");
-			Validation.isValidProgram(jarsignerPath, "jarsigner");
-			Validation.isValidProgram(zipalignPath, "zipalign");
+
+			try {
+				launcher.getChannel().call(new RemoteRecorder() {
+					@Override
+					public JSONObject call() throws Throwable {
+						Validation.isValidProgram(zipPath, "zip");
+						Validation.isValidProgram(jarsignerPath, "jarsigner");
+						Validation.isValidProgram(zipalignPath, "zipalign");
+						return null;
+					}
+				});
+
+			} catch (Throwable ue) {
+				throw new TestFairyException(ue.getMessage(), ue);
+			}
 			return new AndroidBuildEnvironment(zipPath, jarsignerPath, zipalignPath);
 		}
 	}
 
-	public static class AndroidBuildEnvironment {
+	public static class AndroidBuildEnvironment implements Serializable{
 		public String zipPath;
 		public String jarsignerPath;
 		public String zipalignPath;

@@ -4,10 +4,12 @@ import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Recorder;
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import java.io.Serializable;
+
 /**
  * Created by gilt on 1/14/15.
  */
-public class TestFairyBaseRecorder extends Recorder {
+public class TestFairyBaseRecorder extends Recorder implements Serializable {
 
 	protected final String apiKey;
 	protected String appFile;
