@@ -31,7 +31,7 @@ import java.util.Scanner;
 
 public class Uploader {
 
-	public static String VERSION = "2.4";
+	public static String VERSION = "0.0";
 	private static String SERVER = "http://api.testfairy.com";
 	private static final String UPLOAD_URL_PATH = "/api/upload";
 	private static final String UPLOAD_SIGNED_URL_PATH = "/api/upload-signed";
@@ -39,10 +39,13 @@ public class Uploader {
 	public static final String USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
 	public static String JENKINS_URL = "[jenkinsURL]/";
 
-	private final PrintStream logger;
+	private PrintStream logger;
 
-	public Uploader(PrintStream logger) {
+	public Uploader(PrintStream logger, String version) {
+		VERSION = version;
 		this.logger = logger;
+
+		logger.println("new Uploader " + VERSION);
 	}
 
 	private DefaultHttpClient buildHttpClient() {

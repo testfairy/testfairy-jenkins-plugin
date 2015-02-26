@@ -10,7 +10,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class Utils {
+public class Utils implements Serializable {
 
 	public static String extractChangeLog(final ChangeLogSet<?> changeSet) {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -78,7 +78,7 @@ public class Utils {
 		if(Validation.isValidAPK(testFairyEnvironment.jarsignerPath, toReturn)) {
 			return toReturn;
 		} else {
-			throw new TestFairyException("Can't validate your apk, the following command failed: jarsigner -verify " + toReturn);
+			throw new TestFairyException("Can't validate your apk, the following command failed: " + testFairyEnvironment.jarsignerPath + " -verify " + toReturn);
 		}
 	}
 
@@ -102,7 +102,7 @@ public class Utils {
 
 	private static boolean isFileExists(String file) {
 		File f = new File(file);
-		return  f.exists();
+		return f.exists();
 	}
 
 	public static String createEmptyInstrumentedAndSignedFile() throws IOException {
@@ -117,5 +117,9 @@ public class Utils {
 		if (hudsonUrl != null && !hudsonUrl.isEmpty() && !hudsonUrl.equals("$HUDSON_URL")) {
 			Uploader.JENKINS_URL = hudsonUrl;
 		}
+	}
+
+	public static String getVersion(Class c) {
+		return c.getPackage().getImplementationVersion();
 	}
 }

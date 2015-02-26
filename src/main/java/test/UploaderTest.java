@@ -58,7 +58,7 @@ public class UploaderTest {
 			TestFairyAndroidRecorder t = new TestFairyAndroidRecorder(apiKey, appFile, mappingFile, testersGroups, notifyTesters, autoUpdate, maxDuration,
 			    recordOnBackground, dataOnlyWifi, isVideoEnabled, screenshotInterval, videoQuality, advancedOptions, keystorePath, storepass, alias,keypass ,cpu, memory, logs, network, phoneSignal, wifi, gps, battery, openGl);
 
-			Uploader uploader = new Uploader(System.out);
+			Uploader uploader = new Uploader(System.out, Utils.getVersion(UploaderTest.class));
 			Uploader.VERSION = Uploader.VERSION + "-test";
 			TestFairyAndroidRecorder.AndroidBuildEnvironment androidBuildEnvironment = new TestFairyAndroidRecorder.AndroidBuildEnvironment(zipPath, jarsignerPath, zipalignPath);
 
