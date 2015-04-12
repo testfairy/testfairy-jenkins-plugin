@@ -50,15 +50,13 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 				launcher.getChannel().call(new IosRemoteRecorder(listener, this, vars, changeLog));
 
 			} catch (Throwable ue) {
-
-				listener.getLogger().println("Throwable " + ue.getMessage());
-				ue.printStackTrace(listener.getLogger());
-				throw new TestFairyException(ue.getMessage());
+				throw new TestFairyException(ue.getMessage(), ue);
 			}
 			return true;
 
 		} catch (TestFairyException e) {
 			listener.error(e.getMessage() + "\n");
+			e.printStackTrace(listener.getLogger());
 			return false;
 		}
 	}

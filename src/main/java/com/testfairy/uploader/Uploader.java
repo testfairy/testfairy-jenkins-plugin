@@ -101,13 +101,12 @@ public class Uploader {
 			return json;
 
 		} catch (Throwable t) {
-//			System.out.println("Post Throwable");
-//			t.printStackTrace();
+
 			if (t instanceof TestFairyException) {
 				// The TestFairyException will be cached in the preform function (only the massage will be printed for the user)
 				throw new TestFairyException(t.getMessage());
 			} else {
-				throw new IOException("Post fail " + t.getMessage());
+				throw new IOException("Post failed " + t.getMessage() , t);
 			}
 		}
 	}

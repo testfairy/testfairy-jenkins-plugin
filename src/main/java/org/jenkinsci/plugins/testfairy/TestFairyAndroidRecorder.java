@@ -83,9 +83,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 				launcher.getChannel().call(new AndroidRemoteRecorder(listener, this, vars, environment, changeLog));
 
 			} catch (Throwable ue) {
-				listener.getLogger().println("Throwable " + ue.getMessage());
-				ue.printStackTrace(listener.getLogger());
-				throw new TestFairyException(ue.getMessage());
+				throw new TestFairyException(ue.getMessage(), ue);
 			}
 			return true;
 
