@@ -8,6 +8,7 @@ import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
+import hudson.model.Result;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
@@ -41,6 +42,9 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 	@Override
 	public boolean perform(AbstractBuild build, Launcher launcher, final BuildListener listener) throws IOException, InterruptedException {
+		if (build.getResult() != null && build.getResult() == Result.FAILURE) {
+			return false;
+		}
 		listener.getLogger().println("TestFairy Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 		try {
 			String changeLog = Utils.extractChangeLog(build.getChangeSet());
