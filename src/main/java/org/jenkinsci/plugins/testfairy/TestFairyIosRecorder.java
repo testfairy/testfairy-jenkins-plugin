@@ -71,7 +71,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 			Utils.setJenkinsUrl(vars);
 			Uploader.setServer(vars, listener.getLogger());
-			Uploader upload = new Uploader(listener.getLogger(), version);
+			Uploader upload = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
 
 			appFile = Utils.getFilePath(appFile, "*.ipa", vars, true);
 			mappingFile = Utils.getFilePath(mappingFile, "symbols file", vars, false);

@@ -36,13 +36,14 @@ public class Uploader {
 	private static final String UPLOAD_URL_PATH = "/api/upload";
 	private static final String UPLOAD_SIGNED_URL_PATH = "/api/upload-signed";
 
-	public static final String USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
+	public static String USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
 	public static String JENKINS_URL = "[jenkinsURL]/";
 
 	private PrintStream logger;
 
 	public Uploader(PrintStream logger, String version) {
 		VERSION = version;
+		USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
 		this.logger = logger;
 
 		logger.println("new Uploader " + VERSION);
