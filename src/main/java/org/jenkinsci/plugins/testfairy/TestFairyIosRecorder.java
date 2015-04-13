@@ -8,6 +8,7 @@ import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
+import hudson.model.Result;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
@@ -41,6 +42,10 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 	@Override
 	public boolean perform(AbstractBuild build, Launcher launcher, final BuildListener listener) throws IOException, InterruptedException {
+
+		if (build.getResult() != null && build.getResult() == Result.FAILURE) {
+			return false;
+		}
 		listener.getLogger().println("TestFairy Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 		try {
 			String changeLog = Utils.extractChangeLog(build.getChangeSet());
@@ -50,15 +55,13 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 				launcher.getChannel().call(new IosRemoteRecorder(listener, this, vars, changeLog));
 
 			} catch (Throwable ue) {
-
-				listener.getLogger().println("Throwable " + ue.getMessage());
-				ue.printStackTrace(listener.getLogger());
-				throw new TestFairyException(ue.getMessage());
+				throw new TestFairyException(ue.getMessage(), ue);
 			}
 			return true;
 
 		} catch (TestFairyException e) {
 			listener.error(e.getMessage() + "\n");
+			e.printStackTrace(listener.getLogger());
 			return false;
 		}
 	}
@@ -73,7 +76,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 			Utils.setJenkinsUrl(vars);
 			Uploader.setServer(vars, listener.getLogger());
-			Uploader upload = new Uploader(listener.getLogger(), version);
+			Uploader upload = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
 
 			appFile = Utils.getFilePath(appFile, "*.ipa", vars, true);
 			mappingFile = Utils.getFilePath(mappingFile, "symbols file", vars, false);

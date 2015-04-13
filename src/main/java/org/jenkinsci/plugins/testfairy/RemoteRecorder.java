@@ -23,8 +23,6 @@ public abstract class RemoteRecorder implements Callable<JSONObject, Throwable>,
 		this.version = Utils.getVersion(this.getClass());
 		this.changeLog = changeLog;
 		this.vars = vars;
-
-		this.listener.getLogger().println("create RemoteRecorder");
 	}
 
 	public RemoteRecorder() {

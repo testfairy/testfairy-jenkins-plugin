@@ -28,7 +28,7 @@ build() {
 }
 
 
-mvnInstall() {
+buildTheHpi() {
     echo mvnInstall...
     cd $pluginPath
     mvn install
@@ -57,7 +57,7 @@ installJenkins() {
 pluginPath=/home/travis/build/testfairy/testfairy-jenkins-plugin
 
 installJenkins
-mvnInstall
+buildTheHpi
 
 ls ~/.jenkins/war/WEB-INF/jenkins-cli.jar
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin $pluginPath/test/TestFairy.hpi

@@ -36,16 +36,16 @@ public class Uploader {
 	private static final String UPLOAD_URL_PATH = "/api/upload";
 	private static final String UPLOAD_SIGNED_URL_PATH = "/api/upload-signed";
 
-	public static final String USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
+	public static String USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
 	public static String JENKINS_URL = "[jenkinsURL]/";
 
 	private PrintStream logger;
 
 	public Uploader(PrintStream logger, String version) {
 		VERSION = version;
+		USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
 		this.logger = logger;
-
-		logger.println("new Uploader " + VERSION);
+//		logger.println("new Uploader " + VERSION);
 	}
 
 	private DefaultHttpClient buildHttpClient() {
@@ -101,13 +101,12 @@ public class Uploader {
 			return json;
 
 		} catch (Throwable t) {
-//			System.out.println("Post Throwable");
-//			t.printStackTrace();
+
 			if (t instanceof TestFairyException) {
 				// The TestFairyException will be cached in the preform function (only the massage will be printed for the user)
 				throw new TestFairyException(t.getMessage());
 			} else {
-				throw new IOException("Post fail " + t.getMessage());
+				throw new IOException("Post failed " + t.getMessage() , t);
 			}
 		}
 	}
