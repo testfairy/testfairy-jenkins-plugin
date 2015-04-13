@@ -42,6 +42,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 	@Override
 	public boolean perform(AbstractBuild build, Launcher launcher, final BuildListener listener) throws IOException, InterruptedException {
+
 		if (build.getResult() != null && build.getResult() == Result.FAILURE) {
 			return false;
 		}

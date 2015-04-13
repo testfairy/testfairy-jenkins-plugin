@@ -43,7 +43,7 @@
 		<f:textbox default="androiddebugkey"/>
 	</f:entry >
 
-	<f:entry title="keypass"
+	<f:entry title="keypass (optional)"
 		field="keypass" >
 		<f:textbox default=""/>
 	</f:entry >
