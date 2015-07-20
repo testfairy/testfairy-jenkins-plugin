@@ -21,7 +21,7 @@
 		<f:textbox />
 	</f:entry>
 
-	<f:entry title="Send email to testers" field="notifyTesters">
+	<f:entry title="Send email with changelog to testers" field="notifyTesters">
 		<f:checkbox />
 	</f:entry>
 
