@@ -79,8 +79,8 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		}
 		listener.getLogger().println("TestFairy Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 		try {
-			String changeLog = Utils.extractChangeLog(build.getChangeSet());
 			EnvVars vars = build.getEnvironment(listener);
+			String changeLog = Utils.extractChangeLog(vars, build.getChangeSet(), listener.getLogger());
 			AndroidBuildEnvironment environment = getDescriptor().getEnvironment(launcher);
 
 			try {
@@ -121,6 +121,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			JSONObject response = uploader.uploadApp(appFile, changeLog, recorder);
 
 			String instrumentedUrl = response.getString("instrumented_url");
+			instrumentedUrl += instrumentedUrl + "?api_key=" + apiKey;
 			String instrumentedAppPath = Utils.downloadFromUrl(instrumentedUrl, listener.getLogger());
 
 			String signedFilePath = uploader.signingApk(environment, instrumentedAppPath, (TestFairyAndroidRecorder)recorder);
@@ -194,39 +195,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		 * will be displayed to the user.
 		 */
 
-//		public FormValidation doCheckAppFile(@QueryParameter String value) throws IOException, ServletException {
-//
-//			return Valid.checkApk(jarsignerPath, value);
-//
-//		}
-
-//		public FormValidation doCheckEnvironmentExist(@QueryParameter String value) throws IOException, ServletException {
-//			if (curlPath.length() == 0 ) {
-//				return FormValidation.error("Please set a curl path in '..jenkins/configure'");
-//			} else if (!Validation.isValidProgram(curlPath)) {
-//				return FormValidation.error("Your curl is invalid, checkProgram it in '..jenkins/configure'");
-//			}
-//
-//			if (zipPath.length() == 0 ) {
-//				return FormValidation.error("Please set a zip path in '..jenkins/configure'");
-//			} else if (!Validation.isValidProgram(zipPath)) {
-//				return FormValidation.error("Your zip is invalid, checkProgram it in '..jenkins/configure'");
-//			}
-//
-//			if (jarsignerPath.length() == 0 ) {
-//				return FormValidation.error("Please set a jarsigner path in '..jenkins/configure'");
-//			} else if (!Validation.isValidProgram(jarsignerPath)) {
-//				return FormValidation.error("Your jarsigner is invalid, checkProgram it in '..jenkins/configure'");
-//			}
-//
-////			if (zipalignPath.length() == 0 ) {
-////				return FormValidation.error("Please set a zipalign path in '..jenkins/configure'");
-////			} else if (!Valid.isValidProgram(zipalignPath)) {
-////				return FormValidation.error("Your zipalign is invalid, checkProgram it in '..jenkins/configure'");
-////			}
-//			return FormValidation.ok();
-//
-//		}
 		public FormValidation doCheckApiKey(@QueryParameter String value) throws IOException, ServletException {
 			if (value.length() == 0)
 				return FormValidation.error("Please set an ApiKey");

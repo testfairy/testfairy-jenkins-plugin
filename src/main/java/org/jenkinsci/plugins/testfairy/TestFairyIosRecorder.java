@@ -48,8 +48,8 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		}
 		listener.getLogger().println("TestFairy Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 		try {
-			String changeLog = Utils.extractChangeLog(build.getChangeSet());
 			EnvVars vars = build.getEnvironment(listener);
+			String changeLog = Utils.extractChangeLog(vars, build.getChangeSet(), listener.getLogger());
 
 			try {
 				launcher.getChannel().call(new IosRemoteRecorder(listener, this, vars, changeLog));

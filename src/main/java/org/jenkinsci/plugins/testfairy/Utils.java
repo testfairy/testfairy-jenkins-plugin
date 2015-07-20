@@ -12,23 +12,59 @@ import java.net.URLConnection;
 
 public class Utils implements Serializable {
 
-	public static String extractChangeLog(final ChangeLogSet<?> changeSet) {
+	public static String extractChangeLog(EnvVars vars, final ChangeLogSet<?> changeSet, PrintStream logger) {
+
+		String fileName = vars.expand("$JENKINS_HOME") + File.separator +
+				    "jobs" + File.separator +
+				    vars.expand("$JOB_NAME") + File.separator +
+				    "builds" + File.separator +
+				    vars.expand("$BUILD_ID") + File.separator +
+				    "testfairy_change_log";
+
+		String changeLog = null;
+		try {
+			changeLog = getChangeLogFromFile(fileName);
+		} catch (IOException e) {
+			logger.println("Error while reading changeLog, Message: " + e.getMessage());
+		}
+
+		if (changeLog != null && !changeLog.isEmpty()) {
+			logger.println("Loading custom changeLog from " + fileName);
+			return changeLog;
+		} else {
+			logger.println("Loading changeLog from source control");
+			return getChangeLogFromSourceControl(changeSet);
+		}
+	}
+
+	private static String getChangeLogFromSourceControl(ChangeLogSet<?> changeSet) {
 		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("\n\n")
+		    .append(changeSet.isEmptySet() ? "No changes since last build" : "Changes")
+		    .append("\n");
 
-			// Then append the changelog
-			stringBuilder.append("\n\n")
-			    .append(changeSet.isEmptySet() ? "No changes since last build" : "Changes")
-			    .append("\n");
+		int entryNumber = 1;
 
-			int entryNumber = 1;
-
-			for (ChangeLogSet.Entry entry : changeSet) {
-				stringBuilder.append("\n").append(entryNumber).append(". ");
-				stringBuilder.append(entry.getMsg()).append(" \u2014 ").append(entry.getAuthor());
-
-				entryNumber++;
-			}
+		for (ChangeLogSet.Entry entry : changeSet) {
+			stringBuilder.append("\n").append(entryNumber).append(". ");
+			stringBuilder.append(entry.getMsg()).append(" \u2014 ").append(entry.getAuthor());
+			entryNumber++;
+		}
 		return stringBuilder.toString();
+	}
+
+	private static String getChangeLogFromFile(String file) throws IOException {
+		BufferedReader reader = new BufferedReader( new FileReader (file));
+		String line = null;
+		StringBuilder  stringBuilder = new StringBuilder();
+		String ls = System.getProperty("line.separator");
+
+		while( ( line = reader.readLine() ) != null ) {
+			stringBuilder.append( line );
+			stringBuilder.append( ls );
+		}
+		return stringBuilder.toString();
+
 	}
 
 	public static String downloadFromUrl(String urlString, PrintStream logger) throws IOException {
