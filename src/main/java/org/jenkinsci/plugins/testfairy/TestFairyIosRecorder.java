@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.testfairy;
 
 import com.testfairy.uploader.TestFairyException;
 import com.testfairy.uploader.Uploader;
+import com.testfairy.uploader.Validation;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.Launcher;
@@ -78,10 +79,10 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			Uploader.setServer(vars, listener.getLogger());
 			Uploader upload = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
 
-			appFile = Utils.getFilePath(appFile, "*.ipa", vars, true);
-			mappingFile = Utils.getFilePath(mappingFile, "symbols file", vars, false);
+			String appFilePath = Utils.getFilePath(appFile, "*.ipa", vars, true);
+			String mappingFilePath = Utils.getFilePath(mappingFile, "symbols file", vars, false);
 
-			JSONObject response = upload.uploadApp(appFile, changeLog, recorder);
+			JSONObject response = upload.uploadApp(appFilePath, mappingFilePath, changeLog, recorder);
 
 			//print the build url
 			listener.getLogger().println("Check the new build : " + response.getString("build_url"));
@@ -136,6 +137,14 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			if (value.length() != 40)
 				return FormValidation.warning("This is invalid ApiKey");
 			return FormValidation.ok();
+		}
+
+		public FormValidation doCheckAppFile(@QueryParameter String value) throws IOException, ServletException {
+			return Validation.checkAbsolutePath(value);
+		}
+
+		public FormValidation doCheckMappingFile(@QueryParameter String value) throws IOException, ServletException {
+			return Validation.checkAbsolutePath(value);
 		}
 
 		/**

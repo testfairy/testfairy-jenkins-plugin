@@ -63,13 +63,13 @@ public class UploaderTest {
 			TestFairyAndroidRecorder.AndroidBuildEnvironment androidBuildEnvironment = new TestFairyAndroidRecorder.AndroidBuildEnvironment(zipPath, jarsignerPath, zipalignPath);
 
 
-			JSONObject response = uploader.uploadApp(appFile, changeLog, t);
+			JSONObject response = uploader.uploadApp(appFile, null, changeLog, t);
 
 			String instrumentedUrl = response.getString("instrumented_url");
 			String instrumentedAppPath = Utils.downloadFromUrl(instrumentedUrl, System.out);
 
 			String signedFilePath = uploader.signingApk(androidBuildEnvironment, instrumentedAppPath, t);
-			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, t);
+			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, null, t);
 
 			//print the build url
 			System.out.println("Check the new build: " + responseSigned.getString("build_url"));

@@ -132,32 +132,34 @@ public class Uploader {
 	/**
 	 * Upload an APK using /api/upload REST service.
 	 * @param apkFilename
+	 * @param mappingFile
 	 * @param changeLog
 	 * @param recorder
-	 * @return
+	 * @return JSONObject
 	 * @throws IOException
 	 */
-	public JSONObject uploadApp(String apkFilename, String changeLog, TestFairyBaseRecorder recorder) throws IOException, TestFairyException {
+	public JSONObject uploadApp(String apkFilename, String mappingFile, String changeLog, TestFairyBaseRecorder recorder) throws IOException, TestFairyException {
 
 		logger.println("Uploading App...");
-		MultipartEntity entity = buildEntity(recorder, apkFilename , changeLog);
+		MultipartEntity entity = buildEntity(recorder, apkFilename, mappingFile, changeLog);
 		return post(SERVER + UPLOAD_URL_PATH, entity);
 	}
 
 	/**
 	 * Upload a signed APK using /api/upload-signed REST service.
 	 * @param apkFilename
+	 * @param mappingFile
 	 * @param recorder
-	 * @return
+	 * @return JSONObject
 	 * @throws IOException
 	 */
-	public JSONObject uploadSignedApk(String apkFilename, TestFairyBaseRecorder recorder) throws IOException, TestFairyException {
+	public JSONObject uploadSignedApk(String apkFilename, String mappingFile, TestFairyBaseRecorder recorder) throws IOException, TestFairyException {
 
 		logger.println("Uploading SignedApk...");
 		MultipartEntity entity = new MultipartEntity();
 
 		addFileEntity(entity, "apk_file", apkFilename);
-		addFileEntity(entity, "proguard_file", recorder.getMappingFile());
+		addFileEntity(entity, "proguard_file", mappingFile);
 
 		addEntity(entity, "api_key",  recorder.getApiKey());
 		addEntity(entity, "testers-groups",  recorder.getTestersGroups()); // if omitted, no emails will be sent to testers
@@ -171,16 +173,17 @@ public class Uploader {
 	 * Build MultipartEntity for API parameters on Upload of an APK
 	 * @param recorder
 	 * @param apkFilename
+	 * @param mappingFile
 	 * @param changeLog
-	 * @return
+	 * @return MultipartEntity
 	 * @throws IOException
 	 */
-	private MultipartEntity buildEntity(TestFairyBaseRecorder recorder, String apkFilename, String changeLog) throws IOException {
+	private MultipartEntity buildEntity(TestFairyBaseRecorder recorder, String apkFilename, String mappingFile, String changeLog) throws IOException {
 
 		MultipartEntity entity = new MultipartEntity();
 
 		addFileEntity(entity, "apk_file", apkFilename);
-		addFileEntity(entity, "proguard_file", recorder.getMappingFile());
+		addFileEntity(entity, "proguard_file", mappingFile);
 
 		addEntity(entity, "api_key",  recorder.getApiKey());
 		addEntity(entity, "changelog",  changeLog);
@@ -222,7 +225,6 @@ public class Uploader {
 		}
 	}
 
-
 	private String extractMetrics(TestFairyBaseRecorder baseRecorder) {
 		StringBuilder stringBuilder = new StringBuilder();
 		String metrics = "";
@@ -261,6 +263,7 @@ public class Uploader {
 		logger.println("Metrics: " + metrics);
 		return metrics;
 	}
+
 	/**
 	 * return the path to the signed Apk
 	 * @param environment
