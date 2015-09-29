@@ -69,7 +69,7 @@ public class UploaderTest {
 			String instrumentedAppPath = Utils.downloadFromUrl(instrumentedUrl, System.out);
 
 			String signedFilePath = uploader.signingApk(androidBuildEnvironment, instrumentedAppPath, t);
-			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, t);
+			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, null, t);
 
 			//print the build url
 			System.out.println("Check the new build: " + responseSigned.getString("build_url"));
