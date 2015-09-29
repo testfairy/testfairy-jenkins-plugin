@@ -6,14 +6,11 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.Serializable;
 
-/**
- * Created by gilt on 1/14/15.
- */
 public class TestFairyBaseRecorder extends Recorder implements Serializable {
 
 	protected final String apiKey;
-	protected String appFile;
-	protected String mappingFile;
+	protected final String appFile;
+	protected final String mappingFile;
 	protected final String testersGroups;
 	protected final Boolean notifyTesters;
 	protected final Boolean autoUpdate;
@@ -59,17 +56,7 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 		this.wifi = wifi;
 		this.gps = gps;
 		this.battery = battery;
-
-
 		this.openGl = openGl;
-	}
-
-	public void setAppFile(String appFile) {
-		this.appFile = appFile;
-	}
-
-	public void setMappingFile(String mappingFile) {
-		this.mappingFile = mappingFile;
 	}
 
 	public String getApiKey() {

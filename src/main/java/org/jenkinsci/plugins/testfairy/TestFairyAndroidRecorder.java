@@ -113,12 +113,12 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
 			Utils.setJenkinsUrl(vars);
 			Uploader.setServer(vars, listener.getLogger());
-			appFile = Utils.getApkFilePath(appFile, environment, vars);
-			mappingFile = Utils.getFilePath(mappingFile, "symbols file", vars, false);
+			String appFilePath = Utils.getApkFilePath(appFile, environment, vars);
+			String mappingFilePath = Utils.getFilePath(mappingFile, "symbols file", vars, false);
 
 			checkKeystoreParams(vars);
 
-			JSONObject response = uploader.uploadApp(appFile, changeLog, recorder);
+			JSONObject response = uploader.uploadApp(appFilePath, mappingFilePath, changeLog, recorder);
 
 			String instrumentedUrl = response.getString("instrumented_url");
 			instrumentedUrl += instrumentedUrl + "?api_key=" + apiKey;
@@ -126,7 +126,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
 			String signedFilePath = uploader.signingApk(environment, instrumentedAppPath, (TestFairyAndroidRecorder)recorder);
 
-			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, recorder);
+			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, mappingFilePath, recorder);
 
 			//print the build url
 			listener.getLogger().println("Check the new build: " + responseSigned.getString("build_url"));

@@ -78,10 +78,10 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			Uploader.setServer(vars, listener.getLogger());
 			Uploader upload = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
 
-			appFile = Utils.getFilePath(appFile, "*.ipa", vars, true);
-			mappingFile = Utils.getFilePath(mappingFile, "symbols file", vars, false);
+			String appFilePath = Utils.getFilePath(appFile, "*.ipa", vars, true);
+			String mappingFilePath = Utils.getFilePath(mappingFile, "symbols file", vars, false);
 
-			JSONObject response = upload.uploadApp(appFile, changeLog, recorder);
+			JSONObject response = upload.uploadApp(appFilePath, mappingFilePath, changeLog, recorder);
 
 			//print the build url
 			listener.getLogger().println("Check the new build : " + response.getString("build_url"));
