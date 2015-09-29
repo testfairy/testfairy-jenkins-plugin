@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.testfairy;
 
 import com.testfairy.uploader.TestFairyException;
 import com.testfairy.uploader.Uploader;
+import com.testfairy.uploader.Validation;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.Launcher;
@@ -136,6 +137,14 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			if (value.length() != 40)
 				return FormValidation.warning("This is invalid ApiKey");
 			return FormValidation.ok();
+		}
+
+		public FormValidation doCheckAppFile(@QueryParameter String value) throws IOException, ServletException {
+			return Validation.checkAbsolutePath(value);
+		}
+
+		public FormValidation doCheckMappingFile(@QueryParameter String value) throws IOException, ServletException {
+			return Validation.checkAbsolutePath(value);
 		}
 
 		/**

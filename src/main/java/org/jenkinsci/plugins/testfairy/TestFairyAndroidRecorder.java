@@ -202,6 +202,15 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 				return FormValidation.warning("This is invalid ApiKey");
 			return FormValidation.ok();
 		}
+
+		public FormValidation doCheckAppFile(@QueryParameter String value) throws IOException, ServletException {
+			return Validation.checkAbsolutePath(value);
+		}
+
+		public FormValidation doCheckMappingFile(@QueryParameter String value) throws IOException, ServletException {
+			return Validation.checkAbsolutePath(value);
+		}
+
 		public FormValidation doCheckZipPath(@QueryParameter String value) throws IOException, ServletException {
 			return Validation.checkProgram(value);
 		}
