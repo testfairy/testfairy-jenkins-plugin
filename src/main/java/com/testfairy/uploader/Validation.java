@@ -47,7 +47,8 @@ public class Validation implements Serializable {
 	}
 
 	public static FormValidation checkAbsolutePath(String value) {
-		if (!value.startsWith("/") && !value.startsWith("$") && !value.startsWith("C:/")) {
+
+		if (!value.startsWith("/") && !value.startsWith("$") && !value.startsWith("C:\\") && !value.startsWith("\\")) {
 			return FormValidation.warning("Please make sure you are using absolute path");
 		}
 
