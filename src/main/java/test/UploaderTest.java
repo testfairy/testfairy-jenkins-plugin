@@ -63,7 +63,7 @@ public class UploaderTest {
 			TestFairyAndroidRecorder.AndroidBuildEnvironment androidBuildEnvironment = new TestFairyAndroidRecorder.AndroidBuildEnvironment(zipPath, jarsignerPath, zipalignPath);
 
 
-			JSONObject response = uploader.uploadApp(appFile, changeLog, t);
+			JSONObject response = uploader.uploadApp(appFile, null, changeLog, t);
 
 			String instrumentedUrl = response.getString("instrumented_url");
 			String instrumentedAppPath = Utils.downloadFromUrl(instrumentedUrl, System.out);
