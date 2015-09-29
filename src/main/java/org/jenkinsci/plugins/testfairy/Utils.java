@@ -21,12 +21,7 @@ public class Utils implements Serializable {
 				    vars.expand("$BUILD_ID") + File.separator +
 				    "testfairy_change_log";
 
-		String changeLog = null;
-		try {
-			changeLog = getChangeLogFromFile(fileName);
-		} catch (IOException e) {
-			logger.println("Error while reading changeLog, Message: " + e.getMessage());
-		}
+		String changeLog = getChangeLogFromFile(fileName);
 
 		if (changeLog != null && !changeLog.isEmpty()) {
 			logger.println("Loading custom changeLog from " + fileName);
@@ -53,18 +48,23 @@ public class Utils implements Serializable {
 		return stringBuilder.toString();
 	}
 
-	private static String getChangeLogFromFile(String file) throws IOException {
-		BufferedReader reader = new BufferedReader( new FileReader (file));
-		String line = null;
-		StringBuilder  stringBuilder = new StringBuilder();
-		String ls = System.getProperty("line.separator");
+	private static String getChangeLogFromFile(String file) {
+		try {
+			BufferedReader reader = new BufferedReader( new FileReader (file));
+			String line = null;
+			StringBuilder  stringBuilder = new StringBuilder();
+			String ls = System.getProperty("line.separator");
 
-		while( ( line = reader.readLine() ) != null ) {
-			stringBuilder.append( line );
-			stringBuilder.append( ls );
+			while( ( line = reader.readLine() ) != null ) {
+				stringBuilder.append( line );
+				stringBuilder.append( ls );
+			}
+
+			return stringBuilder.toString();
+
+		} catch (IOException e) {
+			return null;
 		}
-		return stringBuilder.toString();
-
 	}
 
 	public static String downloadFromUrl(String urlString, PrintStream logger) throws IOException {
