@@ -7,7 +7,7 @@ import com.testfairy.uploader.command.ZipAlignCommand;
 import com.testfairy.uploader.command.ZipCommand;
 import hudson.EnvVars;
 import net.sf.json.JSONObject;
-import org.apache.commons.httpclient.HttpHost;
+import org.apache.http.HttpHost;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -54,7 +54,7 @@ public class Uploader {
 		// configure proxy (patched by timothy-volvo, https://github.com/timothy-volvo/testfairy-gradle-plugin)
 		String proxyHost = System.getProperty("http.proxyHost");
 		if (proxyHost != null) {
-			Integer proxyPort = Integer.parseInt(System.getProperty("http.proxyPort"));
+			Integer proxyPort = System.getProperty("http.proxyPort") != null ? Integer.parseInt(System.getProperty("http.proxyPort")) : -1;
 			HttpHost proxy = new HttpHost(proxyHost, proxyPort);
 			String proxyUser = System.getProperty("http.proxyUser");
 			if (proxyUser != null) {
