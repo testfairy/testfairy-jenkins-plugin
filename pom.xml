@@ -24,7 +24,7 @@
 	<artifactId>TestFairy</artifactId>
 	<name>TestFairy Plugin</name>
 	<url>http://wiki.jenkins-ci.org/display/JENKINS/TestFairy+Plugin</url>
-	<version>2.8-SNAPSHOT</version>
+	<version>3.0-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 
 	<scm>
