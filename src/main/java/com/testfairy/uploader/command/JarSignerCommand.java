@@ -53,7 +53,7 @@ public class JarSignerCommand extends ArrayList<String> {
 				//example - jarsigner -storetype pkcs12 -storepass 123456789 -keystore jenkins.keystore ham-testfairy.apk androiddebugkey
 			}
 		} catch (Exception e) {
-			throw new TestFairyException(e.getMessage(), e);
+			throw new TestFairyException("jarsignerPath: " + jarsignerPath + ", keystorePath:" + recorder.getKeystorePath(), e);
 		}
 	}
 
