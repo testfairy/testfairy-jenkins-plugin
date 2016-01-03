@@ -77,7 +77,7 @@
 					<f:checkbox />
 				</f:entry >
 
-				<f:entry title="Record data only in wifi"
+				<f:entry title="Record only on wifi"
 					field="dataOnlyWifi" >
 					<f:checkbox />
 				</f:entry >

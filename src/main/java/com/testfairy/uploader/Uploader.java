@@ -1,15 +1,17 @@
 package com.testfairy.uploader;
 
 
+import com.testfairy.apk.ApkArchiveFilterVisitor;
+import com.testfairy.apk.ApkArchiveReader;
+import com.testfairy.apk.ApkArchiveWriter;
 import com.testfairy.uploader.command.JarSignerCommand;
 import com.testfairy.uploader.command.VerifyCommand;
 import com.testfairy.uploader.command.ZipAlignCommand;
-import com.testfairy.uploader.command.ZipCommand;
 import hudson.EnvVars;
 import net.sf.json.JSONObject;
-import org.apache.http.HttpHost;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
@@ -275,21 +277,25 @@ public class Uploader {
 	 */
 	public String signingApk(TestFairyAndroidRecorder.AndroidBuildEnvironment environment, String apkFilename, TestFairyAndroidRecorder recorder) throws IOException, InterruptedException, TestFairyException {
 
-		String apkFilenameZipAlign =  Utils.createEmptyInstrumentedAndSignedFile();
-//
-		ZipCommand zipCommand = new ZipCommand(environment.zipPath, apkFilename);
-		exec(zipCommand);
+		//remove existing signature
+		String unsignedApkPath =  Utils.createEmptyFile();
+		ApkArchiveWriter writer = new ApkArchiveWriter(new FileOutputStream(unsignedApkPath));
+		ApkArchiveFilterVisitor filterVisitor = new ApkArchiveFilterVisitor(writer);
+		filterVisitor.addFilter("META-INF"+ File.separator + "*");
+		ApkArchiveReader reader = new ApkArchiveReader(apkFilename);
+		reader.accept(filterVisitor);
 
-		JarSignerCommand jarSignerCommand = new JarSignerCommand(environment.jarsignerPath, recorder, apkFilename);
+		JarSignerCommand jarSignerCommand = new JarSignerCommand(environment.jarsignerPath, recorder, unsignedApkPath);
 		String out = exec(jarSignerCommand);
 		if (out.contains("error") || out.contains("unsigned")) {
 			throw new TestFairyException(out);
 		}
 
-		VerifyCommand verifyCommand = new VerifyCommand(environment.jarsignerPath, apkFilename);
+		VerifyCommand verifyCommand = new VerifyCommand(environment.jarsignerPath, unsignedApkPath);
 		exec(verifyCommand);
 
-		ZipAlignCommand zipAlignCommand = new ZipAlignCommand(environment.zipalignPath, apkFilename, apkFilenameZipAlign);
+		String apkFilenameZipAlign =  Utils.createEmptyFile();
+		ZipAlignCommand zipAlignCommand = new ZipAlignCommand(environment.zipalignPath, unsignedApkPath, apkFilenameZipAlign);
 		exec(zipAlignCommand);
 
 		return apkFilenameZipAlign;

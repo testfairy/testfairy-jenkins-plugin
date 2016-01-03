@@ -8,10 +8,6 @@
 	<f:section
 		title="TestFairy Android Environment" >
 
-		<f:entry title="zip full path" field="zipPath">
-			<f:textbox default="zip" />
-		</f:entry>
-
 		<f:entry title="jarsigner full path" field="jarsignerPath">
 			<f:textbox default="jarsigner" />
 		</f:entry>

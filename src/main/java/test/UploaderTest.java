@@ -60,7 +60,7 @@ public class UploaderTest {
 
 			Uploader uploader = new Uploader(System.out, Utils.getVersion(UploaderTest.class));
 			Uploader.VERSION = Uploader.VERSION + "-test";
-			TestFairyAndroidRecorder.AndroidBuildEnvironment androidBuildEnvironment = new TestFairyAndroidRecorder.AndroidBuildEnvironment(zipPath, jarsignerPath, zipalignPath);
+			TestFairyAndroidRecorder.AndroidBuildEnvironment androidBuildEnvironment = new TestFairyAndroidRecorder.AndroidBuildEnvironment(jarsignerPath, zipalignPath);
 
 
 			JSONObject response = uploader.uploadApp(appFile, null, changeLog, t);
