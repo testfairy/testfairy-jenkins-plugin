@@ -6,6 +6,9 @@ android:
 jdk:
   - oraclejdk7
   - openjdk7
+  
+before_install:
+  - sudo hostname "$(hostname | cut -c1-63)"
 
 cache:
   directories:
