@@ -172,7 +172,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		 * <p/>
 		 * If you don't want fields to be persisted, use <tt>transient</tt>.
 		 */
-		private String zipPath;
 		private String jarsignerPath;
 		private String zipalignPath;
 
@@ -272,7 +271,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		@Override
 		public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
 
-			zipPath = formData.getString("zipPath");
 			jarsignerPath = formData.getString("jarsignerPath");
 			zipalignPath = formData.getString("zipalignPath");
 
@@ -281,9 +279,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		}
 
 
-		public String getZipPath() {
-			return zipPath;
-		}
 
 		public String getJarsignerPath() {
 			return jarsignerPath;
@@ -296,9 +291,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		public AndroidBuildEnvironment getEnvironment(Launcher launcher) throws TestFairyException {
 
 //			//the default variables are only for display
-			if (zipPath == null) {
-				zipPath = "zip";
-			}
 			if (jarsignerPath == null) {
 				jarsignerPath = "jarsigner";
 			}
@@ -310,7 +302,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 				launcher.getChannel().call(new RemoteRecorder() {
 					@Override
 					public JSONObject call() throws Throwable {
-						Validation.isValidProgram(zipPath, "zip");
 						Validation.isValidProgram(jarsignerPath, "jarsigner");
 						Validation.isValidProgram(zipalignPath, "zipalign");
 						return null;
@@ -320,7 +311,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			} catch (Throwable ue) {
 				throw new TestFairyException(ue.getMessage(), ue);
 			}
-			return new AndroidBuildEnvironment(zipPath, jarsignerPath, zipalignPath);
+			return new AndroidBuildEnvironment(jarsignerPath, zipalignPath);
 		}
 	}
 
@@ -330,14 +321,11 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		public String zipalignPath;
 
 		/**
-		 *
-		 * @param zipPath
 		 * @param jarsignerPath
 		 * @param zipalignPath
 		 */
-		public AndroidBuildEnvironment(String zipPath, String jarsignerPath, String zipalignPath) {
+		public AndroidBuildEnvironment(String jarsignerPath, String zipalignPath) {
 
-			this.zipPath = zipPath;
 			this.jarsignerPath = jarsignerPath;
 			this.zipalignPath = zipalignPath;
 		}

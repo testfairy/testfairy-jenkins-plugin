@@ -141,10 +141,10 @@ public class Utils implements Serializable {
 		return f.exists();
 	}
 
-	public static String createEmptyInstrumentedAndSignedFile() throws IOException {
+	public static String createEmptyFile() throws IOException {
 		long timeStamp = System.currentTimeMillis();
-		File instrumentedAndSigned = File.createTempFile("instrumentedAndSigned-" + timeStamp, ".apk");
-		return instrumentedAndSigned.getPath();
+		File tempFile = File.createTempFile("ttemp-" + timeStamp, ".apk");
+		return tempFile.getPath();
 	}
 
 	public static void setJenkinsUrl(EnvVars vars) {
