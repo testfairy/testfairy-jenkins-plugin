@@ -41,8 +41,6 @@ buildTheHpi() {
 
 
 }
-https://lady.testfairy.net/projects/165374-empty/builds/323898/admin/mobileprovision/
-https://lady.testfairy.net/projects/165374-empty/builds/323898/admin/mobileprovision/
 
 installJenkins() {
     echo installJenkins...
