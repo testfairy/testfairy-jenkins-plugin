@@ -41,11 +41,13 @@ buildTheHpi() {
 
 
 }
+https://lady.testfairy.net/projects/165374-empty/builds/323898/admin/mobileprovision/
+https://lady.testfairy.net/projects/165374-empty/builds/323898/admin/mobileprovision/
 
 installJenkins() {
     echo installJenkins...
     cd $pluginPath/test/
-    curl -Lo jenkins.war http://mirrors.jenkins-ci.org/war/latest/jenkins.war
+    curl -Lo jenkins.war http://mirrors.jenkins-ci.org/war/1.596/jenkins.war
     ls;
 
     echo run jenkins.war and sleep for 45 sec....
