@@ -118,7 +118,8 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
 			checkKeystoreParams(vars);
 
-			JSONObject response = uploader.uploadApp(appFilePath, mappingFilePath, changeLog, recorder);
+			// the last parameter is false, it means that "notify" and "auto-update" will NOT be sent (that will be sent in uploadSignApk()).
+			JSONObject response = uploader.uploadApp(appFilePath, mappingFilePath, changeLog, recorder, false);
 
 			String instrumentedUrl = response.getString("instrumented_url");
 			instrumentedUrl += instrumentedUrl + "?api_key=" + apiKey;
