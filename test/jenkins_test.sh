@@ -53,6 +53,7 @@ installJenkins() {
     echo run jenkins.war and sleep for 45 sec....
     java -jar jenkins.war&
     sleep 45
+    
 }
 
 pluginPath=/home/travis/build/testfairy/testfairy-jenkins-plugin
