@@ -45,13 +45,13 @@ buildTheHpi() {
 installJenkins() {
     echo installJenkins...
     cd $pluginPath/test/
-    curl -Lo jenkins.war http://mirrors.jenkins-ci.org/war/latest/jenkins.war
+    curl -Lo jenkins.war https://s3.amazonaws.com/testfairy/static/Jenkins/jenkins_1_956.war
     ls;
 
     echo run jenkins.war and sleep for 45 sec....
-    java -jar jenkins.war&
+    java -Dhudson.DNSMultiCast.disabled=true -jar jenkins.war&
     sleep 45
-
+    
 }
 
 pluginPath=/home/travis/build/testfairy/testfairy-jenkins-plugin

@@ -137,13 +137,14 @@ public class Uploader {
 	 * @param mappingFile
 	 * @param changeLog
 	 * @param recorder
+	 * @param notifyAndAutoUpdate
 	 * @return JSONObject
 	 * @throws IOException
 	 */
-	public JSONObject uploadApp(String apkFilename, String mappingFile, String changeLog, TestFairyBaseRecorder recorder) throws IOException, TestFairyException {
+	public JSONObject uploadApp(String apkFilename, String mappingFile, String changeLog, TestFairyBaseRecorder recorder, Boolean notifyAndAutoUpdate) throws IOException, TestFairyException {
 
 		logger.println("Uploading App...");
-		MultipartEntity entity = buildEntity(recorder, apkFilename, mappingFile, changeLog);
+		MultipartEntity entity = buildEntity(recorder, apkFilename, mappingFile, changeLog, notifyAndAutoUpdate);
 		return post(SERVER + UPLOAD_URL_PATH, entity);
 	}
 
@@ -180,7 +181,7 @@ public class Uploader {
 	 * @return MultipartEntity
 	 * @throws IOException
 	 */
-	private MultipartEntity buildEntity(TestFairyBaseRecorder recorder, String apkFilename, String mappingFile, String changeLog) throws IOException {
+	private MultipartEntity buildEntity(TestFairyBaseRecorder recorder, String apkFilename, String mappingFile, String changeLog, Boolean notifyAndAutoUpdate) throws IOException {
 
 		MultipartEntity entity = new MultipartEntity();
 
@@ -196,10 +197,14 @@ public class Uploader {
 		addEntity(entity, "advanced-options",  recorder.getAdvancedOptions());
 
 		addEntity(entity, "data-only-wifi", recorder.getDataOnlyWifi());
-//		addEntity(entity, "auto-update", recorder.getAutoUpdate());
+
 		addEntity(entity, "record-on-background", recorder.getRecordOnBackground()); // enable record on background option
 		addEntity(entity, "video", recorder.getIsVideoEnabled());
-//		addEntity(entity, "notify", recorder.getNotifyTesters());
+
+		if (notifyAndAutoUpdate) {
+			addEntity(entity, "auto-update", recorder.getAutoUpdate());
+			addEntity(entity, "notify", recorder.getNotifyTesters());
+		}
 
 		//todo addEntity(entity, "icon-watermark", recorder.);
 
