@@ -49,7 +49,7 @@ installJenkins() {
     ls;
 
     echo run jenkins.war and sleep for 45 sec....
-    java -jar jenkins.war&
+    java -Dhudson.DNSMultiCast.disabled=true -jar jenkins.war&
     sleep 45
     
 }
