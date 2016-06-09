@@ -49,7 +49,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		if (build.getResult() != null && build.getResult() == Result.FAILURE) {
 			return false;
 		}
-		listener.getLogger().println("TestFairy Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
+		listener.getLogger().println("TestFairy iOS/Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 		try {
 			EnvVars vars = build.getEnvironment(listener);
 			String changeLog = Utils.extractChangeLog(vars, build.getChangeSet(), listener.getLogger());
