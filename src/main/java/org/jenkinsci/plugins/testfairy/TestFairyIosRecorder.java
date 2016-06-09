@@ -84,8 +84,8 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			String appFilePath = Utils.getFilePath(appFile, "*.ipa/*.apk", vars, true);
 			String mappingFilePath = Utils.getFilePath(mappingFile, "symbols file", vars, false);
 
-			// the last parameter is true, it means that "notify" and "auto-update" will be sent (the is no uploadSignApk() call for iOS).
-			JSONObject response = upload.uploadApp(appFilePath, mappingFilePath, changeLog, recorder, true);
+			// the last parameter is true, it means that "notify" and "auto-update" will be sent and (there is no "uploadSignApk" call for iOS)
+			JSONObject response = upload.uploadApp(appFilePath, mappingFilePath, changeLog, recorder, true); // isInstrumentation == Off
 
 			//print the build url
 			listener.getLogger().println("Check the new build : " + response.getString("build_url"));
