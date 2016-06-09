@@ -194,7 +194,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		 * This human readable name is used in the configuration screen.
 		 */
 		public String getDisplayName() {
-			return "TestFairy iOS/Android Uploader";
+			return "  TestFairy iOS/Android Uploader";
 		}
 
 		@Override
