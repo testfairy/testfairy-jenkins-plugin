@@ -115,15 +115,15 @@
 					<f:checkbox default="true"/>
 				</f:entry >
 
-				<f:entry title="Network"
-					field="network" >
-					<f:checkbox default="true"/>
-				</f:entry >
-
 				<f:entry title="Application logs"
 					field="logs" >
 					<f:checkbox default="true"/>
 				</f:entry >
+
+				<f:entry title="Network"
+                                        field="network" >
+                                        <f:checkbox default="true"/>
+                                </f:entry >
 
 				<f:entry title="Phone signal"
 					field="phoneSignal" >
