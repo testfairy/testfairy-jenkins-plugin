@@ -266,7 +266,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		 * This human readable name is used in the configuration screen.
 		 */
 		public String getDisplayName() {
-			return "Upload to TestFairy Android";
+			return "TestFairy Advanced Uploader (Android)";
 		}
 
 		@Override
