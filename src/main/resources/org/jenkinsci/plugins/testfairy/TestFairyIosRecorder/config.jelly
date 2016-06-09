@@ -9,11 +9,11 @@
 		<f:textbox />
 	</f:entry>
 
-	<f:entry title="Path To App file (.ipa)" field="appFile"> 
+	<f:entry title="Path To App file (.ipa/.apk)" field="appFile">
 		<f:textbox />
 	</f:entry>
 
-	<f:entry title="Path To .dSYM.zip file (optional)" field="mappingFile">
+	<f:entry title="Path To .dSYM.zip / mapping.txt file (optional)" field="mappingFile">
 		<f:textbox />
 	</f:entry>
 
@@ -77,12 +77,39 @@
 					<f:checkbox default="true"/>
 				</f:entry>
 
-			</f:section>
+				<f:entry title="Network (android only)"
+                                        field="network" >
+                                        <f:checkbox default="true"/>
+                                </f:entry >
+
+                                <f:entry title="Phone signal (android only)"
+                                        field="phoneSignal" >
+                                        <f:checkbox default="true"/>
+                                </f:entry >
+
+                                <f:entry title="WIFI (android only)"
+                                        field="wifi" >
+                                        <f:checkbox default="true"/>
+                                </f:entry >
+
+                                <f:entry title="GPS (android only)"
+                                        field="gps" >
+                                        <f:checkbox />
+                                </f:entry >
+
+                                <f:entry title="Battery (android only)"
+                                        field="battery" >
+                                        <f:checkbox />
+                                </f:entry >
+
+                        </f:section>
 
 			<f:section title="Options">
-				<f:entry title="Advanced (optional)" field="advancedOptions">
-					<f:textbox />
-				</f:entry>
+				<f:entry title="Advanced (optional)"
+					field="advancedOptions"
+                                        description="for example: option1,option2,option3" >
+                                        <f:textbox />
+                                </f:entry>
 			</f:section>
 
 		</f:section>

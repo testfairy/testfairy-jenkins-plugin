@@ -32,11 +32,13 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 				    String testersGroups, Boolean notifyTesters, Boolean autoUpdate,
 				    String maxDuration, Boolean recordOnBackground, Boolean dataOnlyWifi,
 				    Boolean isVideoEnabled, String screenshotInterval, String videoQuality, String advancedOptions,
-				    Boolean cpu, Boolean memory, Boolean logs
+				    Boolean cpu, Boolean memory, Boolean network,
+				    Boolean logs, Boolean phoneSignal, Boolean wifi,
+				    Boolean gps, Boolean battery
 	) {
 
 		super(apiKey, appFile, mappingFile, testersGroups, notifyTesters, autoUpdate, maxDuration,
-		    recordOnBackground, dataOnlyWifi, isVideoEnabled, screenshotInterval, videoQuality, advancedOptions, cpu, memory, logs, false, false, false, false, false, false);
+			recordOnBackground, dataOnlyWifi, isVideoEnabled, screenshotInterval, videoQuality, advancedOptions, cpu, memory, logs, network, phoneSignal, wifi, gps, battery, false);
 
 	}
 
@@ -47,7 +49,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		if (build.getResult() != null && build.getResult() == Result.FAILURE) {
 			return false;
 		}
-		listener.getLogger().println("TestFairy Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
+		listener.getLogger().println("TestFairy iOS/Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 		try {
 			EnvVars vars = build.getEnvironment(listener);
 			String changeLog = Utils.extractChangeLog(vars, build.getChangeSet(), listener.getLogger());
@@ -79,7 +81,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			Uploader.setServer(vars, listener.getLogger());
 			Uploader upload = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
 
-			String appFilePath = Utils.getFilePath(appFile, "*.ipa", vars, true);
+			String appFilePath = Utils.getFilePath(appFile, "*.ipa/*.apk", vars, true);
 			String mappingFilePath = Utils.getFilePath(mappingFile, "symbols file", vars, false);
 
 			// the last parameter is true, it means that "notify" and "auto-update" will be sent (the is no uploadSignApk() call for iOS).
@@ -192,7 +194,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		 * This human readable name is used in the configuration screen.
 		 */
 		public String getDisplayName() {
-			return "Upload to TestFairy iOS";
+			return "  TestFairy iOS/Android Uploader";
 		}
 
 		@Override
