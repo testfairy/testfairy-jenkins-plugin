@@ -103,8 +103,10 @@ public class Validation implements Serializable {
 				outputStringToReturn = outputStringToReturn + outputString;
 			}
 		} catch (IOException e1) {
+			e1.printStackTrace();
 			outputStringToReturn = null;
 		}
+		System.out.println(outputStringToReturn);
 		return outputStringToReturn;
 
 	}
