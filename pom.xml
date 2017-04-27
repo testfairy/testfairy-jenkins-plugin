@@ -28,6 +28,7 @@
 	<packaging>hpi</packaging>
 
 	<scm>
+		
 		<connection>scm:git:https://github.com/jenkinsci/testfairy-plugin</connection>
 		<developerConnection>scm:git:https://github.com/jenkinsci/testfairy-plugin</developerConnection>
 		<url>https://github.com/jenkinsci/testfairy-plugin</url>
