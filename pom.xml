@@ -28,8 +28,8 @@
 	<packaging>hpi</packaging>
 
 	<scm>
-		<connection>scm:git:ssh://github.com/jenkinsci/testfairy-plugin.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/testfairy-plugin.git</developerConnection>
+		<connection>scm:git:https://github.com/jenkinsci/testfairy-plugin</connection>
+		<developerConnection>scm:git:https://github.com/jenkinsci/testfairy-plugin</developerConnection>
 		<url>https://github.com/jenkinsci/testfairy-plugin</url>
 	  <tag>HEAD</tag>
   </scm>
