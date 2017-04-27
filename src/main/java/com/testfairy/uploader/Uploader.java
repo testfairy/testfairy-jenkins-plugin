@@ -47,7 +47,6 @@ public class Uploader {
 		VERSION = version;
 		USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
 		this.logger = logger;
-//		logger.println("new Uploader " + VERSION);
 	}
 
 	private DefaultHttpClient buildHttpClient() {
