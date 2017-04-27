@@ -34,7 +34,7 @@ import java.util.Scanner;
 public class Uploader {
 
 	public static String VERSION = "0.0";
-	private static String SERVER = "http://api.testfairy.com";
+	private static String SERVER = "https://upload.testfairy.com";
 	private static final String UPLOAD_URL_PATH = "/api/upload";
 	private static final String UPLOAD_SIGNED_URL_PATH = "/api/upload-signed";
 
