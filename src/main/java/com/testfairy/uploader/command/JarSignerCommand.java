@@ -13,9 +13,9 @@ public class JarSignerCommand extends ArrayList<String> {
 
 	/**
 	 *
-	 * @param jarsignerPath
-	 * @param recorder
-	 * @param apkFilename
+	 * @param jarsignerPath jarsignerPath
+	 * @param recorder recorder
+	 * @param apkFilename apkFilename
 	 */
 	public JarSignerCommand(String jarsignerPath, TestFairyAndroidRecorder recorder, String apkFilename) throws TestFairyException {
 		super();

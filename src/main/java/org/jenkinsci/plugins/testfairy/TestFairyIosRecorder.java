@@ -101,8 +101,6 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 	/**
 	 * Descriptor for {@link TestFairyIosRecorder}. Used as a singleton.
 	 * The class is marked as public so that it can be accessed from views.
-	 * <p/>
-	 * <p/>
 	 * See <tt>src/main/resources/hudson/plugins/hello_world/TestFairyRecorder/*.jelly</tt>
 	 * for the actual HTML fragment for the configuration screen.
 	 */
@@ -111,8 +109,6 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		/**
 		 * To persist global configuration information,
 		 * simply store it in a field and call save().
-		 * <p/>
-		 * <p/>
 		 * If you don't want fields to be persisted, use <tt>transient</tt>.
 		 */
 
@@ -129,7 +125,6 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		 *
 		 * @param value This parameter receives the value that the user has typed.
 		 * @return Indicates the outcome of the validation. This is sent to the browser.
-		 * <p/>
 		 * Note that returning {@link hudson.util.FormValidation#error(String)} does not
 		 * prevent the form from being saved. It just means that a message
 		 * will be displayed to the user.

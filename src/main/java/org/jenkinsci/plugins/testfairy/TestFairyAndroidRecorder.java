@@ -159,8 +159,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 	/**
 	 * Descriptor for {@link TestFairyAndroidRecorder}. Used as a singleton.
 	 * The class is marked as public so that it can be accessed from views.
-	 * <p/>
-	 * <p/>
 	 * See <tt>src/main/resources/hudson/plugins/hello_world/TestFairyRecorder/*.jelly</tt>
 	 * for the actual HTML fragment for the configuration screen.
 	 */
@@ -169,8 +167,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		/**
 		 * To persist global configuration information,
 		 * simply store it in a field and call save().
-		 * <p/>
-		 * <p/>
 		 * If you don't want fields to be persisted, use <tt>transient</tt>.
 		 */
 		private String jarsignerPath;
@@ -184,22 +180,27 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			load();
 		}
 
+
 		/**
+		 * /**
 		 * Performs on-the-fly validation of the form field 'name'.
 		 *
 		 * @param value This parameter receives the value that the user has typed.
 		 * @return Indicates the outcome of the validation. This is sent to the browser.
-		 * <p/>
 		 * Note that returning {@link FormValidation#error(String)} does not
 		 * prevent the form from being saved. It just means that a message
 		 * will be displayed to the user.
+		 * @return return
+		 * @throws IOException
+		 * @throws ServletException
 		 */
-
 		public FormValidation doCheckApiKey(@QueryParameter String value) throws IOException, ServletException {
-			if (value.length() == 0)
+			if (value.length() == 0) {
 				return FormValidation.error("Please set an ApiKey");
-			if (value.length() != 40)
+			}
+			if (value.length() != 40) {
 				return FormValidation.warning("This is invalid ApiKey");
+			}
 			return FormValidation.ok();
 		}
 
@@ -322,8 +323,8 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		public String zipalignPath;
 
 		/**
-		 * @param jarsignerPath
-		 * @param zipalignPath
+		 * @param jarsignerPath jarsignerPath
+		 * @param zipalignPath zipalignPath
 		 */
 		public AndroidBuildEnvironment(String jarsignerPath, String zipalignPath) {
 

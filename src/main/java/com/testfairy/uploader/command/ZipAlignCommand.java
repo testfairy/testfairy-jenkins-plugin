@@ -6,9 +6,9 @@ public class ZipAlignCommand extends ArrayList<String> {
 
 	/**
 	 * zipAlignPath + " -f 4 " + apkFilename +" "+ apkFilenameZipAlign;
-	 * @param zipAlignPath
-	 * @param apkFilename
-	 * @param apkFilenameZipAlign
+	 * @param zipAlignPath zipAlignPath
+	 * @param apkFilename apkFilename
+	 * @param apkFilenameZipAlign apkFilenameZipAlign
 	 */
 	public ZipAlignCommand(String zipAlignPath, String apkFilename, String apkFilenameZipAlign) {
 		super();

@@ -132,8 +132,8 @@ public class Uploader {
 
 	/**
 	 * Upload an APK using /api/upload REST service.
-	 * @param apkFilename
-	 * @param mappingFile
+	 * @param apkFilename apkFilename
+	 * @param mappingFile mappingFile
 	 * @param changeLog
 	 * @param recorder
 	 * @param isInstrumentationOff
