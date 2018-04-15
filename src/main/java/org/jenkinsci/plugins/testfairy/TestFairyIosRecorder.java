@@ -75,7 +75,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		}
 
 		@Override
-		public JSONObject call() throws Throwable {
+		public String call() throws Throwable {
 
 			Utils.setJenkinsUrl(vars);
 			Uploader.setServer(vars, listener.getLogger());
@@ -85,11 +85,12 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			String mappingFilePath = Utils.getFilePath(mappingFile, "symbols file", vars, false);
 
 			// the last parameter is true, it means that "notify" and "auto-update" will be sent and (there is no "uploadSignApk" call for iOS)
-			JSONObject response = upload.uploadApp(appFilePath, mappingFilePath, changeLog, recorder, true); // isInstrumentation == Off
+			String responseString = upload.uploadApp(appFilePath, mappingFilePath, changeLog, recorder, true); // isInstrumentation == Off
+			JSONObject response = JSONObject.fromObject(responseString);
 
 			//print the build url
 			listener.getLogger().println("Check the new build : " + response.getString("build_url"));
-			return response;
+			return responseString;
 		}
 	};
 

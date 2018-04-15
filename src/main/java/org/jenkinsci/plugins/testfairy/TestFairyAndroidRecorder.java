@@ -77,7 +77,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		if (build.getResult() != null && build.getResult() == Result.FAILURE) {
 			return false;
 		}
-		listener.getLogger().println("TestFairy Advanced Uploader (Android)... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
+		listener.getLogger().println("TestFairy Uploader (Deprecated)... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 		try {
 			EnvVars vars = build.getEnvironment(listener);
 			String changeLog = Utils.extractChangeLog(vars, build.getChangeSet(), listener.getLogger());
@@ -107,7 +107,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		}
 
 		@Override
-		public JSONObject call() throws Throwable {
+		public String call() throws Throwable {
 
 			Uploader uploader = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
 
@@ -119,7 +119,8 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			checkKeystoreParams(vars);
 
 			// the last parameter is false, it means that "notify" and "auto-update" will NOT be sent (that will be sent in uploadSignApk()).
-			JSONObject response = uploader.uploadApp(appFilePath, mappingFilePath, changeLog, recorder, false);
+			String responseString = uploader.uploadApp(appFilePath, mappingFilePath, changeLog, recorder, false);
+			JSONObject response = JSONObject.fromObject(responseString);
 
 			String instrumentedUrl = response.getString("instrumented_url");
 			instrumentedUrl += instrumentedUrl + "?api_key=" + apiKey;
@@ -127,10 +128,10 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
 			String signedFilePath = uploader.signingApk(environment, instrumentedAppPath, (TestFairyAndroidRecorder)recorder);
 
-			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, mappingFilePath, recorder);
+			String responseSigned = uploader.uploadSignedApk(signedFilePath, mappingFilePath, recorder);
 
 			//print the build url
-			listener.getLogger().println("Check the new build: " + responseSigned.getString("build_url"));
+//			listener.getLogger().println("Check the new build: " + responseSigned.getString("build_url"));
 			return responseSigned;
 		}
 	};
@@ -267,7 +268,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		 * This human readable name is used in the configuration screen.
 		 */
 		public String getDisplayName() {
-			return " TestFairy Advanced Uploader (Android)";
+			return " TestFairy Uploader (Deprecated)";
 		}
 
 		@Override
@@ -303,7 +304,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			try {
 				launcher.getChannel().call(new RemoteRecorder() {
 					@Override
-					public JSONObject call() throws Throwable {
+					public String call() throws Throwable {
 						Validation.isValidProgram(jarsignerPath, "jarsigner");
 						Validation.isValidProgram(zipalignPath, "zipalign");
 						return null;
