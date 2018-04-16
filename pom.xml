@@ -35,14 +35,14 @@
 	<artifactId>TestFairy</artifactId>
 	<name>TestFairy Plugin</name>
 	<url>http://wiki.jenkins-ci.org/display/JENKINS/TestFairy+Plugin</url>
-	<version>4.13-SNAPSHOT</version>
+	<version>4.13</version>
 	<packaging>hpi</packaging>
 
 	<scm>
 		<connection>scm:git:ssh://github.com/jenkinsci/testfairy-plugin.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/testfairy-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/testfairy-plugin</url>
-	  <tag>TestFairy-4.9</tag>
+	  <tag>TestFairy-4.13</tag>
   </scm>
 
 	<licenses>
