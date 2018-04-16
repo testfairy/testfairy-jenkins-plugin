@@ -77,7 +77,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		if (build.getResult() != null && build.getResult() == Result.FAILURE) {
 			return false;
 		}
-		listener.getLogger().println("TestFairy Advanced Uploader (Android)... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
+		listener.getLogger().println("TestFairy Uploader (Deprecated)... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
 		try {
 			EnvVars vars = build.getEnvironment(listener);
 			String changeLog = Utils.extractChangeLog(vars, build.getChangeSet(), listener.getLogger());
@@ -107,7 +107,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		}
 
 		@Override
-		public JSONObject call() throws Throwable {
+		public String call() throws Throwable {
 
 			Uploader uploader = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
 
@@ -119,7 +119,8 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			checkKeystoreParams(vars);
 
 			// the last parameter is false, it means that "notify" and "auto-update" will NOT be sent (that will be sent in uploadSignApk()).
-			JSONObject response = uploader.uploadApp(appFilePath, mappingFilePath, changeLog, recorder, false);
+			String responseString = uploader.uploadApp(appFilePath, mappingFilePath, changeLog, recorder, false);
+			JSONObject response = JSONObject.fromObject(responseString);
 
 			String instrumentedUrl = response.getString("instrumented_url");
 			instrumentedUrl += instrumentedUrl + "?api_key=" + apiKey;
@@ -127,10 +128,10 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
 			String signedFilePath = uploader.signingApk(environment, instrumentedAppPath, (TestFairyAndroidRecorder)recorder);
 
-			JSONObject responseSigned = uploader.uploadSignedApk(signedFilePath, mappingFilePath, recorder);
+			String responseSigned = uploader.uploadSignedApk(signedFilePath, mappingFilePath, recorder);
 
 			//print the build url
-			listener.getLogger().println("Check the new build: " + responseSigned.getString("build_url"));
+//			listener.getLogger().println("Check the new build: " + responseSigned.getString("build_url"));
 			return responseSigned;
 		}
 	};
@@ -159,8 +160,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 	/**
 	 * Descriptor for {@link TestFairyAndroidRecorder}. Used as a singleton.
 	 * The class is marked as public so that it can be accessed from views.
-	 * <p/>
-	 * <p/>
 	 * See <tt>src/main/resources/hudson/plugins/hello_world/TestFairyRecorder/*.jelly</tt>
 	 * for the actual HTML fragment for the configuration screen.
 	 */
@@ -169,8 +168,6 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		/**
 		 * To persist global configuration information,
 		 * simply store it in a field and call save().
-		 * <p/>
-		 * <p/>
 		 * If you don't want fields to be persisted, use <tt>transient</tt>.
 		 */
 		private String jarsignerPath;
@@ -184,22 +181,27 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			load();
 		}
 
+
 		/**
+		 * /**
 		 * Performs on-the-fly validation of the form field 'name'.
 		 *
 		 * @param value This parameter receives the value that the user has typed.
 		 * @return Indicates the outcome of the validation. This is sent to the browser.
-		 * <p/>
 		 * Note that returning {@link FormValidation#error(String)} does not
 		 * prevent the form from being saved. It just means that a message
 		 * will be displayed to the user.
+		 * @return return
+		 * @throws IOException
+		 * @throws ServletException
 		 */
-
 		public FormValidation doCheckApiKey(@QueryParameter String value) throws IOException, ServletException {
-			if (value.length() == 0)
+			if (value.length() == 0) {
 				return FormValidation.error("Please set an ApiKey");
-			if (value.length() != 40)
+			}
+			if (value.length() != 40) {
 				return FormValidation.warning("This is invalid ApiKey");
+			}
 			return FormValidation.ok();
 		}
 
@@ -266,7 +268,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		 * This human readable name is used in the configuration screen.
 		 */
 		public String getDisplayName() {
-			return " TestFairy Advanced Uploader (Android)";
+			return " TestFairy Uploader (Deprecated)";
 		}
 
 		@Override
@@ -302,7 +304,7 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 			try {
 				launcher.getChannel().call(new RemoteRecorder() {
 					@Override
-					public JSONObject call() throws Throwable {
+					public String call() throws Throwable {
 						Validation.isValidProgram(jarsignerPath, "jarsigner");
 						Validation.isValidProgram(zipalignPath, "zipalign");
 						return null;
@@ -322,8 +324,8 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 		public String zipalignPath;
 
 		/**
-		 * @param jarsignerPath
-		 * @param zipalignPath
+		 * @param jarsignerPath jarsignerPath
+		 * @param zipalignPath zipalignPath
 		 */
 		public AndroidBuildEnvironment(String jarsignerPath, String zipalignPath) {
 

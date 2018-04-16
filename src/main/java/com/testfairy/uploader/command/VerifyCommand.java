@@ -6,8 +6,8 @@ public class VerifyCommand extends ArrayList<String> {
 
 	/**
 	 * jarsignerPath + " -verify " + apkFilename
-	 * @param jarsignerPath
-	 * @param apkFilename
+	 * @param jarsignerPath jarsignerPath
+	 * @param apkFilename apkFilename
 	 */
 	public VerifyCommand(String jarsignerPath, String apkFilename) {
 		super();

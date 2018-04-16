@@ -3,12 +3,11 @@ package org.jenkinsci.plugins.testfairy;
 import hudson.EnvVars;
 import hudson.model.BuildListener;
 import hudson.remoting.Callable;
-import net.sf.json.JSONObject;
 import org.jenkinsci.remoting.RoleChecker;
 
 import java.io.Serializable;
 
-public abstract class RemoteRecorder implements Callable<JSONObject, Throwable>, Serializable {
+public abstract class RemoteRecorder implements Callable<String, Throwable>, Serializable {
 
 	protected BuildListener listener;
 	protected EnvVars vars;
