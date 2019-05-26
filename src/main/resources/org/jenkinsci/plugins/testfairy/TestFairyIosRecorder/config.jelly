@@ -6,7 +6,7 @@
 	xmlns:f="/lib/form" >
 
 	<f:entry title="TestFairy API Key" field="apiKey" description="Put your TestFairy API_KEY here. Find it in your TestFairy account settings.">
-		<f:textbox />
+		<f:password/>
 	</f:entry>
 
 	<f:entry title="Path To App file (.ipa/.apk)" field="appFile">

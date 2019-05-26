@@ -145,6 +145,7 @@ public class Uploader {
 
 		logger.println("Uploading App...");
 		MultipartEntity entity = buildEntity(recorder, apkFilename, mappingFile, changeLog, isInstrumentationOff);
+
 		return post(SERVER + UPLOAD_URL_PATH, entity);
 	}
 

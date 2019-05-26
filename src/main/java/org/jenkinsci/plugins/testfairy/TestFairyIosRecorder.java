@@ -14,6 +14,7 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
+import hudson.util.Secret;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
@@ -28,7 +29,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 
 	@DataBoundConstructor
-	public TestFairyIosRecorder(String apiKey, String appFile, String mappingFile,
+	public TestFairyIosRecorder(Secret apiKey, String appFile, String mappingFile,
 				    String testersGroups, Boolean notifyTesters, Boolean autoUpdate,
 				    String maxDuration, Boolean recordOnBackground, Boolean dataOnlyWifi,
 				    Boolean isVideoEnabled, String screenshotInterval, String videoQuality, String advancedOptions,

@@ -1,6 +1,7 @@
 package test;
 
 import com.testfairy.uploader.Uploader;
+import hudson.util.Secret;
 import net.sf.json.JSONObject;
 import org.jenkinsci.plugins.testfairy.TestFairyAndroidRecorder;
 import org.jenkinsci.plugins.testfairy.Utils;
@@ -55,8 +56,8 @@ public class UploaderTest {
 
 		try {
 
-			TestFairyAndroidRecorder t = new TestFairyAndroidRecorder(apiKey, appFile, mappingFile, testersGroups, notifyTesters, autoUpdate, maxDuration,
-			    recordOnBackground, dataOnlyWifi, isVideoEnabled, screenshotInterval, videoQuality, advancedOptions, keystorePath, storepass, alias,keypass ,cpu, memory, logs, network, phoneSignal, wifi, gps, battery, openGl);
+			TestFairyAndroidRecorder t = new TestFairyAndroidRecorder(Secret.fromString(apiKey), appFile, mappingFile, testersGroups, notifyTesters, autoUpdate, maxDuration,
+			    recordOnBackground, dataOnlyWifi, isVideoEnabled, screenshotInterval, videoQuality, advancedOptions, keystorePath, Secret.fromString(storepass), Secret.fromString(alias), Secret.fromString(keypass), cpu, memory, logs, network, phoneSignal, wifi, gps, battery, openGl);
 
 			Uploader uploader = new Uploader(System.out, Utils.getVersion(UploaderTest.class));
 			Uploader.VERSION = Uploader.VERSION + "-test";

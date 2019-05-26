@@ -2,13 +2,14 @@ package org.jenkinsci.plugins.testfairy;
 
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Recorder;
+import hudson.util.Secret;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.Serializable;
 
 public class TestFairyBaseRecorder extends Recorder implements Serializable {
 
-	protected final String apiKey;
+	protected final Secret apiKey;
 	protected final String appFile;
 	protected final String mappingFile;
 	protected final String testersGroups;
@@ -33,7 +34,7 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 	protected final Boolean openGl;
 
 	@DataBoundConstructor
-	public TestFairyBaseRecorder(String apiKey, String appFile, String mappingFile, String testersGroups, Boolean notifyTesters, Boolean autoUpdate, String maxDuration, Boolean recordOnBackground, Boolean dataOnlyWifi, Boolean isVideoEnabled, String screenshotInterval, String videoQuality, String advancedOptions, Boolean cpu, Boolean memory, Boolean logs, Boolean network, Boolean phoneSignal, Boolean wifi, Boolean gps, Boolean battery, Boolean openGl) {
+	public TestFairyBaseRecorder(Secret apiKey, String appFile, String mappingFile, String testersGroups, Boolean notifyTesters, Boolean autoUpdate, String maxDuration, Boolean recordOnBackground, Boolean dataOnlyWifi, Boolean isVideoEnabled, String screenshotInterval, String videoQuality, String advancedOptions, Boolean cpu, Boolean memory, Boolean logs, Boolean network, Boolean phoneSignal, Boolean wifi, Boolean gps, Boolean battery, Boolean openGl) {
 
 		this.apiKey = apiKey;
 		this.appFile = appFile;
@@ -60,7 +61,7 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 	}
 
 	public String getApiKey() {
-		return apiKey;
+		return apiKey.getPlainText();
 	}
 
 	public String getAppFile() {
