@@ -47,7 +47,6 @@ public class Uploader {
 		VERSION = version;
 		USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
 		this.logger = logger;
-//		logger.println("new Uploader " + VERSION);
 	}
 
 	private DefaultHttpClient buildHttpClient() {
@@ -71,7 +70,7 @@ public class Uploader {
 		return httpClient;
 	}
 
-	private JSONObject post(String url, MultipartEntity entity) throws IOException, TestFairyException {
+	private String post(String url, MultipartEntity entity) throws IOException, TestFairyException {
 		DefaultHttpClient httpClient = buildHttpClient();
 //		logger.println("post to  --> " + url);
 
@@ -100,7 +99,7 @@ public class Uploader {
 				String errorMessage = json.getString("message");
 				throw new TestFairyException(errorMessage);
 			}
-			return json;
+			return responseString;
 
 		} catch (Throwable t) {
 
@@ -133,15 +132,15 @@ public class Uploader {
 
 	/**
 	 * Upload an APK using /api/upload REST service.
-	 * @param apkFilename
-	 * @param mappingFile
+	 * @param apkFilename apkFilename
+	 * @param mappingFile mappingFile
 	 * @param changeLog
 	 * @param recorder
 	 * @param isInstrumentationOff
 	 * @return JSONObject
 	 * @throws IOException
 	 */
-	public JSONObject uploadApp(String apkFilename, String mappingFile, String changeLog, TestFairyBaseRecorder recorder, Boolean isInstrumentationOff) throws IOException, TestFairyException {
+	public String uploadApp(String apkFilename, String mappingFile, String changeLog, TestFairyBaseRecorder recorder, Boolean isInstrumentationOff) throws IOException, TestFairyException {
 
 		logger.println("Uploading App...");
 		MultipartEntity entity = buildEntity(recorder, apkFilename, mappingFile, changeLog, isInstrumentationOff);
@@ -157,7 +156,7 @@ public class Uploader {
 	 * @return JSONObject
 	 * @throws IOException
 	 */
-	public JSONObject uploadSignedApk(String apkFilename, String mappingFile, TestFairyBaseRecorder recorder) throws IOException, TestFairyException {
+	public String uploadSignedApk(String apkFilename, String mappingFile, TestFairyBaseRecorder recorder) throws IOException, TestFairyException {
 
 		logger.println("Uploading SignedApk...");
 		MultipartEntity entity = new MultipartEntity();
