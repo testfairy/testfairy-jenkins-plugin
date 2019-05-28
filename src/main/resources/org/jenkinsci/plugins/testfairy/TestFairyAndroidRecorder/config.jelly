@@ -14,7 +14,7 @@
 		title="TestFairy API Key"
 		field="apiKey"
 		description="Put your TestFairy API_KEY here. Find it in your TestFairy account settings.">
-		<f:textbox />
+		<f:password autocomplete="new-password"/>
 	</f:entry>
 
 	<f:entry title="Path To App file (.apk)"
