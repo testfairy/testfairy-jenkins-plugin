@@ -217,7 +217,10 @@ public class Uploader {
 
 	private void addEntity(MultipartEntity entity, String name, String value) throws UnsupportedEncodingException {
 		if (value != null && !value.isEmpty()) {
-			logger.println("--add " +name + ": " + value.replace("\n", ""));
+
+			if (!name.contentEquals("api_key")) {
+				logger.println("--add " +name + ": " + value.replace("\n", ""));
+			}
 			entity.addPart(name, new StringBody(value));
 		}
 	}
