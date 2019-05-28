@@ -14,6 +14,7 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
+import hudson.util.Secret;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
@@ -28,16 +29,16 @@ import static hudson.Util.getHostName;
 public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 
 	private String keystorePath;
-	private final String storepass;
-	private final String alias;
-	private final String keypass;
+	private final Secret storepass;
+	private final Secret alias;
+	private final Secret keypass;
 
 	@DataBoundConstructor
-	public TestFairyAndroidRecorder(String apiKey, String appFile, String mappingFile,
+	public TestFairyAndroidRecorder(Secret apiKey, String appFile, String mappingFile,
 					String testersGroups, Boolean notifyTesters, Boolean autoUpdate,
 					String maxDuration, Boolean recordOnBackground, Boolean dataOnlyWifi,
 					Boolean isVideoEnabled, String screenshotInterval, String videoQuality, String advancedOptions,
-					String keystorePath, String storepass, String alias, String keypass,
+					String keystorePath, Secret storepass, Secret alias, Secret keypass,
 					Boolean cpu, Boolean memory, Boolean network,
 					Boolean logs, Boolean phoneSignal, Boolean wifi,
 					Boolean gps, Boolean battery, Boolean openGl
@@ -60,15 +61,15 @@ public class TestFairyAndroidRecorder extends TestFairyBaseRecorder {
 	}
 
 	public String getStorepass() {
-		return storepass;
+		return storepass.getPlainText();
 	}
 
 	public String getAlias() {
-		return alias;
+		return alias.getPlainText();
 	}
 
 	public String getKeypass() {
-		return keypass;
+		return keypass.getPlainText();
 	}
 
 	@Override

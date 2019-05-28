@@ -144,6 +144,7 @@ public class Uploader {
 
 		logger.println("Uploading App...");
 		MultipartEntity entity = buildEntity(recorder, apkFilename, mappingFile, changeLog, isInstrumentationOff);
+
 		return post(SERVER + UPLOAD_URL_PATH, entity);
 	}
 
@@ -215,7 +216,7 @@ public class Uploader {
 
 	private void addEntity(MultipartEntity entity, String name, String value) throws UnsupportedEncodingException {
 		if (value != null && !value.isEmpty()) {
-			logger.println("--add " +name + ": " + value.replace("\n", ""));
+			logger.println("--add " +name + ": " + (name.contentEquals("api_key") ? "****" : value.replace("\n", "")));
 			entity.addPart(name, new StringBody(value));
 		}
 	}
