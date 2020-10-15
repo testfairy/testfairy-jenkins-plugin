@@ -66,8 +66,12 @@ public class Utils implements Serializable {
 		} catch (IOException e) {
 			return null;
 		} finally {
-			if (reader != null) { try { reader.close(); } catch (Exception ignored) {} }
+			closeSafely(reader);
 		}
+	}
+
+	public static void closeSafely(Closeable reader) {
+		if (reader != null) { try { reader.close(); } catch (Exception e) { throw new RuntimeException(e); } }
 	}
 
 	public static String downloadFromUrl(String urlString, PrintStream logger) throws IOException {

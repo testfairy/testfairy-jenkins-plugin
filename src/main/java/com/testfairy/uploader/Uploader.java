@@ -16,6 +16,7 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jenkinsci.plugins.testfairy.TestFairyBaseRecorder;
+import org.jenkinsci.plugins.testfairy.Utils;
 
 import java.io.*;
 import java.util.Scanner;
@@ -76,7 +77,7 @@ public class Uploader {
 			// Improved error handling.
 			int statusCode = response.getStatusLine().getStatusCode();
 			if (statusCode != 200) {
-				String responseBody = new Scanner(is).useDelimiter("\\A").next();
+				String responseBody = new Scanner(is, "UTF-8").useDelimiter("\\A").next();
 				throw new TestFairyException(responseBody);
 			}
 
@@ -100,7 +101,7 @@ public class Uploader {
 				throw new IOException("Post failed " + t.getMessage() , t);
 			}
 		} finally {
-			if (is != null) { try { is.close(); } catch (Exception ignored) {} }
+			Utils.closeSafely(is);
 		}
 	}
 
