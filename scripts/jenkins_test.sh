@@ -28,27 +28,11 @@ build() {
 
 
 buildTheHpi() {
-    echo mvnInstall...
-    cd $pluginPath
-    mvn install
-    cp $pluginPath/target/TestFairy.hpi $pluginPath/test/
-    cd $pluginPath/test/
 
-    if [ ! -f TestFairy.hpi ]; then
-        echo "TestFairy.hpi File not found!, the build probably failed"
-        exit 2
-    fi
 }
 
 installJenkins() {
-    echo installJenkins...
-    cd $pluginPath/test/
-    curl -Lo jenkins.war https://s3.amazonaws.com/testfairy/static/Jenkins/jenkins_1_956.war
-    ls;
 
-    echo run jenkins.war and sleep for 45 sec....
-    java -Dhudson.DNSMultiCast.disabled=true -jar jenkins.war&
-    sleep 45
 }
 
 pluginPath=/home/travis/build/testfairy/testfairy-jenkins-plugin

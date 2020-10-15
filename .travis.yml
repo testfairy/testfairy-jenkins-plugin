@@ -18,6 +18,11 @@ cache:
     - $HOME/.m2
 
 script:
-    - cd test
-    - bash ./jenkins_test.sh
-    - cd ..
+  - HPI_OUTPUT_FILENAME="TestFairy.hpi"
+  - mvn install
+  - ls target/TestFairy.hpi
+  - cp target/TestFairy.hpi "${HPI_OUTPUT_FILENAME}"
+  - cd scripts
+  - bash ./install_jenkins.sh
+  - bash ./test_jenkins_plugin.sh ${HPI_OUTPUT_FILENAME} JenkinsTest.xml
+  - cd ..
