@@ -14,7 +14,7 @@
   <builders/>
   <publishers>
     <org.jenkinsci.plugins.testfairy.TestFairyAndroidRecorder plugin="testfairy@2.0">
-      <apiKey>5f8d490c554f63cf7784174bcdcb3c87f2447709</apiKey>
+      <apiKey>b03f1aa64b4f2bd0b8c62efc11e3bf3e02f57795</apiKey>
       <appFile>ham.apk</appFile>
       <mappingFile></mappingFile>
       <testersGroups></testersGroups>

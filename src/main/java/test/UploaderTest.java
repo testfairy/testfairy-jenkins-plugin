@@ -43,7 +43,7 @@ public class UploaderTest {
 	private static String keypass = "";
 
 
-	private static String apiKey = "c502ea9cc04d83a2aa4050fe13812c8dc139140d";
+	private static String apiKey = "5f8d490c554f63cf7784174bcdcb3c87f2447709";
 	private static String zipPath = "zip";
 	private static String jarsignerPath = "jarsigner";
 	private static String curlPath = "curl";
