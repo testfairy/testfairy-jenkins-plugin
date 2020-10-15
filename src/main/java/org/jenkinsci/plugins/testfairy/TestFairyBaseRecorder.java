@@ -31,11 +31,31 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 	protected final Boolean wifi;
 	protected final Boolean gps;
 	protected final Boolean battery;
-	protected final Boolean openGl;
 
 	@DataBoundConstructor
-	public TestFairyBaseRecorder(Secret apiKey, String appFile, String mappingFile, String testersGroups, Boolean notifyTesters, Boolean autoUpdate, String maxDuration, Boolean recordOnBackground, Boolean dataOnlyWifi, Boolean isVideoEnabled, String screenshotInterval, String videoQuality, String advancedOptions, Boolean cpu, Boolean memory, Boolean logs, Boolean network, Boolean phoneSignal, Boolean wifi, Boolean gps, Boolean battery, Boolean openGl) {
-
+	public TestFairyBaseRecorder(
+		Secret apiKey,
+		String appFile,
+		String mappingFile,
+		String testersGroups,
+		Boolean notifyTesters,
+		Boolean autoUpdate,
+		String maxDuration,
+		Boolean recordOnBackground,
+		Boolean dataOnlyWifi,
+		Boolean isVideoEnabled,
+		String screenshotInterval,
+		String videoQuality,
+		String advancedOptions,
+		Boolean cpu,
+		Boolean memory,
+		Boolean logs,
+		Boolean network,
+		Boolean phoneSignal,
+		Boolean wifi,
+		Boolean gps,
+		Boolean battery
+	) {
 		this.apiKey = apiKey;
 		this.appFile = appFile;
 		this.mappingFile = mappingFile;
@@ -57,7 +77,6 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 		this.wifi = wifi;
 		this.gps = gps;
 		this.battery = battery;
-		this.openGl = openGl;
 	}
 
 	public String getApiKey() {
@@ -142,10 +161,6 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 
 	public Boolean getBattery() {
 		return battery;
-	}
-
-	public Boolean getOpenGl() {
-		return openGl;
 	}
 
 	public BuildStepMonitor getRequiredMonitorService() {

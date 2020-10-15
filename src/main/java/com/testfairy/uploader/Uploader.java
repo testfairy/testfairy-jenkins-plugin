@@ -209,9 +209,6 @@ public class Uploader {
 		if (baseRecorder.getBattery()) {
 			stringBuilder.append(",battery");
 		}
-		if (baseRecorder.getOpenGl()) {
-			stringBuilder.append(",opengl");
-		}
 
 		if(stringBuilder.length() > 0) {
 			// remove the first char (it will be ",")

@@ -71,8 +71,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			phoneSignal,
 			wifi,
 			gps,
-			battery,
-			false
+			battery
 		);
 	}
 
