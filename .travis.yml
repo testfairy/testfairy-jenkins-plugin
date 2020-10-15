@@ -20,8 +20,8 @@ cache:
 script:
   - HPI_OUTPUT_FILENAME="$(pwd)/scripts/TestFairy.hpi"
   - JENKINS_TEST_CONFIG="$(pwd)/scripts/JenkinsTest.xml"
-  - mvn install
-  - ls target/TestFairy.hpi
+  - mvn -e install
+  - ls -a target/TestFairy.hpi
   - cp target/TestFairy.hpi "${HPI_OUTPUT_FILENAME}"
   - cd scripts
   - bash ./install_jenkins.sh
