@@ -1,7 +1,6 @@
 #!/bin/bash
 
 build() {
-
     echo start build
     java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build JenkinsTest
 
@@ -34,12 +33,11 @@ buildTheHpi() {
     mvn install
     cp $pluginPath/target/TestFairy.hpi $pluginPath/test/
     cd $pluginPath/test/
+
     if [ ! -f TestFairy.hpi ]; then
         echo "TestFairy.hpi File not found!, the build probably failed"
         exit 2
     fi
-
-
 }
 
 installJenkins() {
@@ -51,7 +49,6 @@ installJenkins() {
     echo run jenkins.war and sleep for 45 sec....
     java -Dhudson.DNSMultiCast.disabled=true -jar jenkins.war&
     sleep 45
-    
 }
 
 pluginPath=/home/travis/build/testfairy/testfairy-jenkins-plugin
@@ -68,27 +65,6 @@ java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ creat
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-jobs
 
 cd $pluginPath/test
-
-dname=("CN=common_name" "OU=organizational_unit" "O=organization" "L=locality" "S=state" "C=US")
-
-rm jenkins.keystore
-#type=jks, alias=androiddebugkey, storepass= android, keypass=123456789
-keytool -genkey -keystore jenkins.keystore -alias androiddebugkey -storepass android -keyalg RSA -keysize 2048 -validity 3650 -dname $dname[*] -keypass 123456789 2>&1;
-build "type=jks, alias=androiddebugkey, storepass= android, keypass=123456789"
-
-rm jenkins.keystore
-#type=pkcs12, alias=androiddebugkey, storepass= android, keypass=123456789
-keytool -genkey -keystore jenkins.keystore -alias androiddebugkey -storepass android -keyalg RSA -keysize 2048 -validity 3650 -dname $dname[*] -keypass 123456789 -storetype pkcs12 2>&1;
-build "type=pkcs12, alias=androiddebugkey, storepass= android, keypass=123456789"
-
-rm jenkins.keystore
-#type=pkcs12, alias=androiddebugkey, storepass= android
-keytool -genkey -keystore jenkins.keystore -alias androiddebugkey -storepass android -keyalg RSA -keysize 2048 -validity 3650 -dname $dname[*] -storetype pkcs12 2>&1;
-build "type=pkcs12, alias=androiddebugkey, storepass= android"
-
-#rm jenkins.keystore
-##type=pkcs11, alias=androiddebugkey, storepass= android, keypass=123456789
-#keytool -genkey -keystore jenkins.keystore -alias androiddebugkey -storepass android -keyalg RSA -keysize 2048 -validity 3650 -dname $dname[*] -keypass 123456789 -storetype pkcs11 2>&1;
-#build "type=pkcs11, alias=androiddebugkey, storepass= android, keypass=123456789"
+build
 
 echo Yay the build work!!!

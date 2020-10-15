@@ -106,18 +106,6 @@ public class Utils implements Serializable {
 		return tempFile.getPath();
 	}
 
-	public static String getApkFilePath(String appFile, TestFairyAndroidRecorder.AndroidBuildEnvironment testFairyEnvironment, EnvVars vars) throws TestFairyException {
-		if (appFile == null || appFile.length() == 0) {
-			throw new TestFairyException("Can't find a APK " + appFile);
-		}
-		String toReturn = vars.expand(appFile);
-		if(Validation.isValidAPK(testFairyEnvironment.jarsignerPath, toReturn)) {
-			return toReturn;
-		} else {
-			throw new TestFairyException("Can't validate your apk, the following command failed: " + testFairyEnvironment.jarsignerPath + " -verify " + toReturn);
-		}
-	}
-
 	public static String getFilePath(String file, String name, EnvVars vars, Boolean required) throws TestFairyException {
 		if (file == null || file.length() == 0){
 			if (required) {

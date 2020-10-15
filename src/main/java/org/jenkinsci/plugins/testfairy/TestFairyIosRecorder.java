@@ -26,43 +26,75 @@ import java.io.IOException;
 import static hudson.Util.getHostName;
 
 public class TestFairyIosRecorder extends TestFairyBaseRecorder {
-
-
 	@DataBoundConstructor
-	public TestFairyIosRecorder(Secret apiKey, String appFile, String mappingFile,
-				    String testersGroups, Boolean notifyTesters, Boolean autoUpdate,
-				    String maxDuration, Boolean recordOnBackground, Boolean dataOnlyWifi,
-				    Boolean isVideoEnabled, String screenshotInterval, String videoQuality, String advancedOptions,
-				    Boolean cpu, Boolean memory, Boolean network,
-				    Boolean logs, Boolean phoneSignal, Boolean wifi,
-				    Boolean gps, Boolean battery
+	public TestFairyIosRecorder(
+		Secret apiKey,
+		String appFile,
+		String mappingFile,
+		String testersGroups,
+		Boolean notifyTesters,
+		Boolean autoUpdate,
+		String maxDuration,
+		Boolean recordOnBackground,
+		Boolean dataOnlyWifi,
+		Boolean isVideoEnabled,
+		String screenshotInterval,
+		String videoQuality,
+		String advancedOptions,
+		Boolean cpu,
+		Boolean memory,
+		Boolean network,
+		Boolean logs,
+		Boolean phoneSignal,
+		Boolean wifi,
+		Boolean gps,
+		Boolean battery
 	) {
-
-		super(apiKey, appFile, mappingFile, testersGroups, notifyTesters, autoUpdate, maxDuration,
-			recordOnBackground, dataOnlyWifi, isVideoEnabled, screenshotInterval, videoQuality, advancedOptions, cpu, memory, logs, network, phoneSignal, wifi, gps, battery, false);
-
+		super(
+			apiKey,
+			appFile,
+			mappingFile,
+			testersGroups,
+			notifyTesters,
+			autoUpdate,
+			maxDuration,
+			recordOnBackground,
+			dataOnlyWifi,
+			isVideoEnabled,
+			screenshotInterval,
+			videoQuality,
+			advancedOptions,
+			cpu,
+			memory,
+			logs,
+			network,
+			phoneSignal,
+			wifi,
+			gps,
+			battery,
+			false
+		);
 	}
-
 
 	@Override
 	public boolean perform(AbstractBuild build, Launcher launcher, final BuildListener listener) throws IOException, InterruptedException {
-
 		if (build.getResult() != null && build.getResult() == Result.FAILURE) {
 			return false;
 		}
+
 		listener.getLogger().println("TestFairy iOS/Android Uploader... v " + Utils.getVersion(getClass()) + ", run on " + getHostName());
+
 		try {
 			EnvVars vars = build.getEnvironment(listener);
 			String changeLog = Utils.extractChangeLog(vars, build.getChangeSet(), listener.getLogger());
 
 			try {
 				launcher.getChannel().call(new IosRemoteRecorder(listener, this, vars, changeLog));
-
 			} catch (Throwable ue) {
 				throw new TestFairyException(ue.getMessage(), ue);
 			}
-			return true;
 
+			return true;
 		} catch (TestFairyException e) {
 			listener.error(e.getMessage() + "\n");
 			e.printStackTrace(listener.getLogger());
@@ -77,7 +109,6 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 		@Override
 		public String call() throws Throwable {
-
 			Utils.setJenkinsUrl(vars);
 			Uploader.setServer(vars, listener.getLogger());
 			Uploader upload = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
@@ -174,7 +205,6 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		public ListBoxModel doFillVideoQualityItems() {
 			ListBoxModel items = new ListBoxModel();
 
-
 			items.add("High", "high");
 			items.add("Medium", "medium");
 			items.add("Low", "low");
@@ -196,15 +226,10 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 		@Override
 		public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
-
 			save();
 			return super.configure(req, formData);
 		}
-
-
 	}
-
-
 }
 
 
