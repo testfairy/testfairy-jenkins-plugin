@@ -49,8 +49,9 @@ public class Utils implements Serializable {
 	}
 
 	private static String getChangeLogFromFile(String file) {
+		BufferedReader reader = null;
 		try {
-			BufferedReader reader = new BufferedReader( new FileReader (file));
+		 	reader = new BufferedReader( new FileReader (file));
 			String line = null;
 			StringBuilder  stringBuilder = new StringBuilder();
 			String ls = System.getProperty("line.separator");
@@ -64,6 +65,8 @@ public class Utils implements Serializable {
 
 		} catch (IOException e) {
 			return null;
+		} finally {
+			if (reader != null) { try { reader.close(); } catch (Exception e) {} }
 		}
 	}
 
@@ -135,10 +138,12 @@ public class Utils implements Serializable {
 		return tempFile.getPath();
 	}
 
-	public static void setJenkinsUrl(EnvVars vars) {
+	public static String getJenkinsUrl(EnvVars vars) {
 		String hudsonUrl = vars.expand("$HUDSON_URL");
 		if (hudsonUrl != null && !hudsonUrl.isEmpty() && !hudsonUrl.equals("$HUDSON_URL")) {
-			Uploader.JENKINS_URL = hudsonUrl;
+			return hudsonUrl;
+		} else {
+			return "[jenkinsURL]/";
 		}
 	}
 

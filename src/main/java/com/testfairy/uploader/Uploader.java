@@ -4,13 +4,11 @@ package com.testfairy.uploader;
 import hudson.EnvVars;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -23,20 +21,21 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Uploader {
-
-	public static String VERSION = "0.0";
-	private static String SERVER = "https://upload.testfairy.com";
 	private static final String UPLOAD_URL_PATH = "/api/upload";
-	private static final String UPLOAD_SIGNED_URL_PATH = "/api/upload-signed";
 
-	public static String USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
-	public static String JENKINS_URL = "[jenkinsURL]/";
+	private final String server;
+	private final String userAgent;
+	private final String version;
+	private final PrintStream logger;
 
-	private PrintStream logger;
-
-	public Uploader(PrintStream logger, String version) {
-		VERSION = version;
-		USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
+	public Uploader(
+		PrintStream logger,
+		String version,
+		String server
+	) {
+		this.server = server;
+		this.version = version;
+		this.userAgent = "TestFairy Jenkins Plugin VERSION: " + version;
 		this.logger = logger;
 	}
 
@@ -66,12 +65,13 @@ public class Uploader {
 //		logger.println("post to  --> " + url);
 
 		HttpPost post = new HttpPost(url);
-		post.addHeader("User-Agent", USER_AGENT);
+		post.addHeader("User-Agent", userAgent);
 		post.setEntity(entity);
 
+		InputStream is = null;
 		try {
 			HttpResponse response = httpClient.execute(post);
-			InputStream is = response.getEntity().getContent();
+			is = response.getEntity().getContent();
 
 			// Improved error handling.
 			int statusCode = response.getStatusLine().getStatusCode();
@@ -93,13 +93,14 @@ public class Uploader {
 			return responseString;
 
 		} catch (Throwable t) {
-
 			if (t instanceof TestFairyException) {
 				// The TestFairyException will be cached in the preform function (only the massage will be printed for the user)
 				throw new TestFairyException(t.getMessage());
 			} else {
 				throw new IOException("Post failed " + t.getMessage() , t);
 			}
+		} finally {
+			if (is != null) { try { is.close(); } catch (Exception e) {} }
 		}
 	}
 
@@ -118,7 +119,7 @@ public class Uploader {
 		logger.println("Uploading App...");
 		MultipartEntity entity = buildEntity(recorder, apkFilename, mappingFile, changeLog, isInstrumentationOff);
 
-		return post(SERVER + UPLOAD_URL_PATH, entity);
+		return post(this.server + UPLOAD_URL_PATH, entity);
 	}
 
 	/**
@@ -219,12 +220,13 @@ public class Uploader {
 		return metrics;
 	}
 
-	public static void setServer(EnvVars vars, PrintStream logger) {
-
+	public static String getServer(EnvVars vars, PrintStream logger) {
 		String server = vars.expand("$TESTFAIRY_UPLOADER_SERVER");
 		if (server != null && !server.isEmpty() && !server.equals("$TESTFAIRY_UPLOADER_SERVER")) {
-			SERVER = server;
-			logger.println("The server will be  " + SERVER);
+			logger.println("The server will be  " + server);
+			return server;
+		} else {
+			return "https://upload.testfairy.com";
 		}
 	}
 }

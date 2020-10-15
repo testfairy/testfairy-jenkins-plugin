@@ -110,9 +110,11 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 
 		@Override
 		public String call() throws Throwable {
-			Utils.setJenkinsUrl(vars);
-			Uploader.setServer(vars, listener.getLogger());
-			Uploader upload = new Uploader(listener.getLogger(), Utils.getVersion(getClass()));
+			Uploader upload = new Uploader(
+				listener.getLogger(),
+				Utils.getVersion(getClass()),
+				Uploader.getServer(vars, listener.getLogger())
+			);
 
 			String appFilePath = Utils.getFilePath(appFile, "*.ipa/*.apk", vars, true);
 			String mappingFilePath = Utils.getFilePath(mappingFile, "symbols file", vars, false);
