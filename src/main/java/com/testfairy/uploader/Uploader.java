@@ -149,6 +149,7 @@ public class Uploader {
 
 		addEntity(entity, "record-on-background", recorder.getRecordOnBackground()); // enable record on background option
 		addEntity(entity, "video", recorder.getIsVideoEnabled());
+		addEntity(entity, "tags", recorder.getTags());
 
 		if (isInstrumentationOff) {
 			addEntity(entity, "auto-update", recorder.getAutoUpdate());

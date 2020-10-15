@@ -12,6 +12,7 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 	protected final Secret apiKey;
 	protected final String appFile;
 	protected final String mappingFile;
+	protected final String tags;
 	protected final String testersGroups;
 	protected final Boolean notifyTesters;
 	protected final Boolean autoUpdate;
@@ -37,6 +38,7 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 		Secret apiKey,
 		String appFile,
 		String mappingFile,
+		String tags,
 		String testersGroups,
 		Boolean notifyTesters,
 		Boolean autoUpdate,
@@ -59,6 +61,7 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 		this.apiKey = apiKey;
 		this.appFile = appFile;
 		this.mappingFile = mappingFile;
+		this.tags = tags;
 		this.testersGroups = testersGroups;
 		this.notifyTesters = notifyTesters;
 		this.autoUpdate = autoUpdate;
@@ -162,6 +165,8 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 	public Boolean getBattery() {
 		return battery;
 	}
+
+	public String getTags() { return tags; }
 
 	public BuildStepMonitor getRequiredMonitorService() {
 		return BuildStepMonitor.NONE;

@@ -18,12 +18,6 @@ cache:
     - $HOME/.m2
 
 script:
-    - echo $ANDROID_HOME
-    - find $ANDROID_HOME -name zipalign
-    - sudo cp $ANDROID_HOME/build-tools/19.1.0/zipalign /bin/
-    - which zip
-    - which zipalign
-    - which jarsigner
     - cd test
     - bash ./jenkins_test.sh
     - cd ..

@@ -17,6 +17,7 @@
       <apiKey>b03f1aa64b4f2bd0b8c62efc11e3bf3e02f57795</apiKey>
       <appFile>ham.apk</appFile>
       <mappingFile></mappingFile>
+      <tags>adhoc,production</tags>
       <testersGroups></testersGroups>
       <notifyTesters>false</notifyTesters>
       <autoUpdate>false</autoUpdate>

@@ -136,7 +136,6 @@ public class Utils implements Serializable {
 	}
 
 	public static void setJenkinsUrl(EnvVars vars) {
-
 		String hudsonUrl = vars.expand("$HUDSON_URL");
 		if (hudsonUrl != null && !hudsonUrl.isEmpty() && !hudsonUrl.equals("$HUDSON_URL")) {
 			Uploader.JENKINS_URL = hudsonUrl;

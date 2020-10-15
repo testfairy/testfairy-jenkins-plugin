@@ -40,7 +40,7 @@
 
 	<scm>
 		<connection>scm:git:ssh://github.com/jenkinsci/testfairy-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/testfairy-plugin.git</developerConnection>
+		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/testfairy-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/testfairy-plugin</url>
 	  	<tag>TestFairy-4.9</tag>
   	</scm>

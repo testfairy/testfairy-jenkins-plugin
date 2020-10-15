@@ -67,4 +67,4 @@ java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-
 cd $pluginPath/test
 build
 
-echo Yay the build work!!!
+echo "Plugin $pluginPath/target/TestFairy.hpi passed"
