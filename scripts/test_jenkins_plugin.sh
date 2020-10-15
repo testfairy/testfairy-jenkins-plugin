@@ -37,6 +37,6 @@ while true; do
 	echo check SUCCESS
 	grep "Finished: SUCCESS" /tmp/console.log
 	if [ $? == 0 ]; then
-		break;
+		exit 0;
 	fi
 done
