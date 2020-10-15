@@ -100,7 +100,7 @@ public class Uploader {
 				throw new IOException("Post failed " + t.getMessage() , t);
 			}
 		} finally {
-			if (is != null) { try { is.close(); } catch (Exception e) {} }
+			if (is != null) { try { is.close(); } catch (Exception ignored) {} }
 		}
 	}
 

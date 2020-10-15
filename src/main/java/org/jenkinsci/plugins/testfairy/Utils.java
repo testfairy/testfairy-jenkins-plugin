@@ -51,7 +51,7 @@ public class Utils implements Serializable {
 	private static String getChangeLogFromFile(String file) {
 		BufferedReader reader = null;
 		try {
-		 	reader = new BufferedReader( new FileReader (file));
+		 	reader = new BufferedReader( new FileReader(file));
 			String line = null;
 			StringBuilder  stringBuilder = new StringBuilder();
 			String ls = System.getProperty("line.separator");
@@ -66,7 +66,7 @@ public class Utils implements Serializable {
 		} catch (IOException e) {
 			return null;
 		} finally {
-			if (reader != null) { try { reader.close(); } catch (Exception e) {} }
+			if (reader != null) { try { reader.close(); } catch (Exception ignored) {} }
 		}
 	}
 
