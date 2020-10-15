@@ -5,6 +5,11 @@ if [ ! -f $1 ]; then
 	exit 2
 fi
 
+if [ ! -f $2 ]; then
+	echo "Jenkins test config file not found at path [$2]."
+	exit 2
+fi
+
 echo "Installing $1"
 ls ~/.jenkins/war/WEB-INF/jenkins-cli.jar
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin $1
