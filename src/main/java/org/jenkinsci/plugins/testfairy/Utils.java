@@ -51,7 +51,10 @@ public class Utils implements Serializable {
 	private static String getChangeLogFromFile(String file) {
 		BufferedReader reader = null;
 		try {
-		 	reader = new BufferedReader( new FileReader(file));
+		 	reader = new BufferedReader(new InputStreamReader(
+				new FileInputStream(file),
+				"UTF-8"
+			));
 			String line = null;
 			StringBuilder  stringBuilder = new StringBuilder();
 			String ls = System.getProperty("line.separator");
