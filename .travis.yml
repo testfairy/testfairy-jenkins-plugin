@@ -37,3 +37,5 @@ deploy:
   file: target/TestFairy-${TRAVIS_TAG}.hpi
   on:
     repo: testfairy/testfairy-jenkins-plugin
+    branch: feat-project-phoenix-down
+    tags: true
