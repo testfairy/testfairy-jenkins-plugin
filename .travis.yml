@@ -28,7 +28,7 @@ script:
 before_deploy:
 - mvn clean
 - mvn install
-- echo 'TODO Need to change pom.xml version number'
+- sed -i '' "s/<version>4.17.2-SNAPSHOT<\/version>/<version>${TRAVIS_TAG}<\/version>/g" pom.xml
 - mv target/TestFairy.hpi target/TestFairy-${TRAVIS_TAG}.hpi
 deploy:
   provider: releases
