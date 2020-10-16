@@ -27,9 +27,11 @@ script:
 - cd ..
 before_deploy:
 - mvn clean
-- mvn install
 - sed -i "s/<version>4.17.2-SNAPSHOT<\/version>/<version>${TRAVIS_TAG}<\/version>/g" pom.xml
+- mvn install
+- ls -a target
 - mv target/TestFairy.hpi target/TestFairy-${TRAVIS_TAG}.hpi
+- ls -a target
 deploy:
   provider: releases
   api_key:
