@@ -36,6 +36,7 @@ deploy:
   provider: releases
   api_key:
     secure: VYNmlh1GtebofF3sRxCXXbn412CmA5ZDk/zJUXTTROr5KOctIxsNIBslEMned5AR7Yh4dONzh8UKISzS5DrNvI9xvq6ApjE/iyqQ3nn9b6ZIkQ0zdhq3Ipuz+heyvHafQhbeNOC5hFwfCF9cUJ3FSZTNCgQ+fdvAw6Y6uxox9Fc=
+  skip_cleanup: true
   file: target/TestFairy-${TRAVIS_TAG}.hpi
   on:
     repo: testfairy/testfairy-jenkins-plugin
