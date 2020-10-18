@@ -29,9 +29,7 @@ before_deploy:
 - mvn clean
 - sed -i "s/<version>4.17.2-SNAPSHOT<\/version>/<version>${TRAVIS_TAG}<\/version>/g" pom.xml
 - mvn install
-- ls -a target
 - mv target/TestFairy.hpi target/TestFairy-${TRAVIS_TAG}.hpi
-- ls -a target
 deploy:
   provider: releases
   api_key:
@@ -40,5 +38,5 @@ deploy:
   file: target/TestFairy-${TRAVIS_TAG}.hpi
   on:
     repo: testfairy/testfairy-jenkins-plugin
-    branch: feat-project-phoenix-down
+    branch: master
     tags: true
