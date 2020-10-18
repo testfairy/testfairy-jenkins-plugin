@@ -15,7 +15,6 @@ public abstract class RemoteRecorder implements Callable<String, Throwable>, Ser
 	protected String version;
 	protected String changeLog;
 
-
 	public RemoteRecorder(BuildListener listener, TestFairyBaseRecorder testFairyIosRecorder, EnvVars vars, String changeLog) {
 		this.listener = listener;
 		this.recorder = testFairyIosRecorder;
@@ -24,12 +23,8 @@ public abstract class RemoteRecorder implements Callable<String, Throwable>, Ser
 		this.vars = vars;
 	}
 
-	public RemoteRecorder() {
-	}
-
+	public RemoteRecorder() {}
 
 	@Override
-	public void checkRoles(RoleChecker roleChecker) throws SecurityException {
-
-	}
+	public void checkRoles(RoleChecker roleChecker) throws SecurityException {}
 }

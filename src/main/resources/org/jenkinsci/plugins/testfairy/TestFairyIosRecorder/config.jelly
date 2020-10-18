@@ -18,6 +18,10 @@
 		<f:textbox />
 	</f:entry>
 
+	<f:entry title="Build Tags (optional, comma separated)" field="tags">
+		<f:textbox />
+	</f:entry>
+
 	<f:entry title="Tester groups to notify (optional)" field="testersGroups">
 		<f:textbox />
 	</f:entry>
@@ -80,38 +84,38 @@
 
 				<f:entry title="Network (android only)"
                                         field="network" >
-                                        <f:checkbox default="true"/>
-                                </f:entry >
+                    <f:checkbox default="true"/>
+                </f:entry >
 
-                                <f:entry title="Phone signal (android only)"
-                                        field="phoneSignal" >
-                                        <f:checkbox default="true"/>
-                                </f:entry >
+                <f:entry title="Phone signal (android only)"
+                        field="phoneSignal" >
+                    <f:checkbox default="true"/>
+                </f:entry >
 
-                                <f:entry title="WIFI (android only)"
-                                        field="wifi" >
-                                        <f:checkbox default="true"/>
-                                </f:entry >
+                <f:entry title="WIFI (android only)"
+                        field="wifi" >
+                    <f:checkbox default="true"/>
+                </f:entry >
 
-                                <f:entry title="GPS (android only)"
-                                        field="gps" >
-                                        <f:checkbox />
-                                </f:entry >
+                <f:entry title="GPS (android only)"
+                        field="gps" >
+                    <f:checkbox />
+                </f:entry >
 
-                                <f:entry title="Battery (android only)"
-                                        field="battery" >
-                                        <f:checkbox />
-                                </f:entry >
+                <f:entry title="Battery (android only)"
+                        field="battery" >
+                    <f:checkbox />
+                </f:entry >
 
-                        </f:section>
+            </f:section>
 
-			<f:section title="Options">
-				<f:entry title="Advanced (optional)"
-					field="advancedOptions"
-                                        description="for example: option1,option2,option3" >
-                                        <f:textbox />
-                                </f:entry>
-			</f:section>
+            <f:section title="Options">
+                <f:entry title="Advanced (optional)"
+                        field="advancedOptions"
+                        description="for example: option1,option2,option3" >
+                    <f:textbox />
+                </f:entry>
+            </f:section>
 
 		</f:section>
 	</f:advanced>
