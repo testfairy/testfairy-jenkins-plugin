@@ -6,7 +6,7 @@ apt-get update
 apt-get install -y maven
 apt-get install -y openjdk-8-jdk
 
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export JAVA_HOME=${JAVA_HOME:-/usr/lib/jvm/java-8-openjdk-amd64}
 export HPI_OUTPUT_FILENAME="$(pwd)/scripts/TestFairy.hpi"
 export TF_API_KEY=$TF_API_KEY
 
