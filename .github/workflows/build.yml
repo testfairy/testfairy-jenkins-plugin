@@ -1,4 +1,4 @@
-name: Test on modern Android devices
+name: Build
 
 on: [push]
 
@@ -18,7 +18,7 @@ jobs:
         uses: android-actions/setup-android@v2
 
       - name: Build and test
-          run: |
-            export TF_API_KEY=${{ secrets.TF_API_KEY }}
-            bash scripts/build.sh
-          shell: bash
+        run: |
+          export TF_API_KEY=${{ secrets.TF_API_KEY }}
+          bash scripts/build.sh
+        shell: bash
