@@ -22,6 +22,8 @@
 
 #Jenkins output
 target/
+scripts/jenkins.war
+scripts/TestFairy.hpi
 
 
 

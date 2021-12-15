@@ -14,7 +14,7 @@
   <builders/>
   <publishers>
     <org.jenkinsci.plugins.testfairy.TestFairyIosRecorder plugin="testfairy@2.0">
-      <apiKey>b03f1aa64b4f2bd0b8c62efc11e3bf3e02f57795</apiKey>
+      <apiKey>REPLACE_ME</apiKey>
       <appFile>ham.apk</appFile>
       <mappingFile></mappingFile>
       <tags>adhoc,production</tags>
