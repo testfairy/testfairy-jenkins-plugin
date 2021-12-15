@@ -1,0 +1,52 @@
+name: Publish SDK to testfairy-maven repo as a PR
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Setup java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Build and test
+        run: |
+          export TF_API_KEY=${{ secrets.TF_API_KEY }}
+          echo "CI_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+          # TODO : Replace version in pom.xml
+
+          bash scripts/build.sh
+
+          mv target/TestFairy.hpi target/TestFairy-${CI_TAG}.hpi
+
+          # TODO : Rename hpi file to include version
+          # TODO : Upload to Github releases
+        shell: bash
+
+      - name: Upload release artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Version ${{ env.CI_TAG }}
+          tag_name: ${{ env.CI_TAG }}
+          fail_on_unmatched_files: true
+          prerelease: false
+          files: |
+            target/TestFairy-${{ env.CI_TAG }}.hpi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
