@@ -1,29 +1,42 @@
 language: android
 android:
   components:
-    - platform-tools
-    - build-tools-19.1.0
+  - platform-tools
+  - build-tools-19.1.0
 jdk:
-  - oraclejdk7
-  - openjdk7
-  
+- oraclejdk8
+- openjdk8
 before_install:
-  - cat /etc/hosts # optionally check the content *before*
-  - sudo hostname "$(hostname | cut -c1-63)"
-  - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
-  - cat /etc/hosts # optionally check the content *after*
-
+- cat /etc/hosts
+- sudo hostname "$(hostname | cut -c1-63)"
+- sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo
+  tee /etc/hosts
+- cat /etc/hosts
 cache:
   directories:
-    - $HOME/.m2
-
+  - "$HOME/.m2"
 script:
-    - echo $ANDROID_HOME
-    - find $ANDROID_HOME -name zipalign
-    - sudo cp $ANDROID_HOME/build-tools/19.1.0/zipalign /bin/
-    - which zip
-    - which zipalign
-    - which jarsigner
-    - cd test
-    - bash ./jenkins_test.sh
-    - cd ..
+- HPI_OUTPUT_FILENAME="$(pwd)/scripts/TestFairy.hpi"
+- JENKINS_TEST_CONFIG="$(pwd)/scripts/JenkinsTest.xml"
+- mvn install
+- ls -a target/TestFairy.hpi
+- cp target/TestFairy.hpi "${HPI_OUTPUT_FILENAME}"
+- cd scripts
+- bash ./install_jenkins.sh
+- bash ./test_jenkins_plugin.sh ${HPI_OUTPUT_FILENAME} ${JENKINS_TEST_CONFIG}
+- cd ..
+before_deploy:
+- mvn clean
+- sed -i "s/<version>4.17.2-SNAPSHOT<\/version>/<version>${TRAVIS_TAG}<\/version>/g" pom.xml
+- mvn install
+- mv target/TestFairy.hpi target/TestFairy-${TRAVIS_TAG}.hpi
+deploy:
+  provider: releases
+  api_key:
+    secure: VYNmlh1GtebofF3sRxCXXbn412CmA5ZDk/zJUXTTROr5KOctIxsNIBslEMned5AR7Yh4dONzh8UKISzS5DrNvI9xvq6ApjE/iyqQ3nn9b6ZIkQ0zdhq3Ipuz+heyvHafQhbeNOC5hFwfCF9cUJ3FSZTNCgQ+fdvAw6Y6uxox9Fc=
+  skip_cleanup: true
+  file: target/TestFairy-${TRAVIS_TAG}.hpi
+  on:
+    repo: testfairy/testfairy-jenkins-plugin
+    branch: master
+    tags: true

@@ -12,6 +12,7 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 	protected final Secret apiKey;
 	protected final String appFile;
 	protected final String mappingFile;
+	protected final String tags;
 	protected final String testersGroups;
 	protected final Boolean notifyTesters;
 	protected final Boolean autoUpdate;
@@ -31,14 +32,36 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 	protected final Boolean wifi;
 	protected final Boolean gps;
 	protected final Boolean battery;
-	protected final Boolean openGl;
 
 	@DataBoundConstructor
-	public TestFairyBaseRecorder(Secret apiKey, String appFile, String mappingFile, String testersGroups, Boolean notifyTesters, Boolean autoUpdate, String maxDuration, Boolean recordOnBackground, Boolean dataOnlyWifi, Boolean isVideoEnabled, String screenshotInterval, String videoQuality, String advancedOptions, Boolean cpu, Boolean memory, Boolean logs, Boolean network, Boolean phoneSignal, Boolean wifi, Boolean gps, Boolean battery, Boolean openGl) {
-
+	public TestFairyBaseRecorder(
+		Secret apiKey,
+		String appFile,
+		String mappingFile,
+		String tags,
+		String testersGroups,
+		Boolean notifyTesters,
+		Boolean autoUpdate,
+		String maxDuration,
+		Boolean recordOnBackground,
+		Boolean dataOnlyWifi,
+		Boolean isVideoEnabled,
+		String screenshotInterval,
+		String videoQuality,
+		String advancedOptions,
+		Boolean cpu,
+		Boolean memory,
+		Boolean logs,
+		Boolean network,
+		Boolean phoneSignal,
+		Boolean wifi,
+		Boolean gps,
+		Boolean battery
+	) {
 		this.apiKey = apiKey;
 		this.appFile = appFile;
 		this.mappingFile = mappingFile;
+		this.tags = tags;
 		this.testersGroups = testersGroups;
 		this.notifyTesters = notifyTesters;
 		this.autoUpdate = autoUpdate;
@@ -57,7 +80,6 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 		this.wifi = wifi;
 		this.gps = gps;
 		this.battery = battery;
-		this.openGl = openGl;
 	}
 
 	public String getApiKey() {
@@ -144,9 +166,7 @@ public class TestFairyBaseRecorder extends Recorder implements Serializable {
 		return battery;
 	}
 
-	public Boolean getOpenGl() {
-		return openGl;
-	}
+	public String getTags() { return tags; }
 
 	public BuildStepMonitor getRequiredMonitorService() {
 		return BuildStepMonitor.NONE;

@@ -1,51 +1,42 @@
 package com.testfairy.uploader;
 
 
-import com.testfairy.apk.ApkArchiveFilterVisitor;
-import com.testfairy.apk.ApkArchiveReader;
-import com.testfairy.apk.ApkArchiveWriter;
-import com.testfairy.uploader.command.JarSignerCommand;
-import com.testfairy.uploader.command.VerifyCommand;
-import com.testfairy.uploader.command.ZipAlignCommand;
 import hudson.EnvVars;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.jenkinsci.plugins.testfairy.TestFairyAndroidRecorder;
 import org.jenkinsci.plugins.testfairy.TestFairyBaseRecorder;
 import org.jenkinsci.plugins.testfairy.Utils;
 
 import java.io.*;
-import java.util.List;
 import java.util.Scanner;
 
 public class Uploader {
-
-	public static String VERSION = "0.0";
-	private static String SERVER = "https://upload.testfairy.com";
 	private static final String UPLOAD_URL_PATH = "/api/upload";
-	private static final String UPLOAD_SIGNED_URL_PATH = "/api/upload-signed";
 
-	public static String USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
-	public static String JENKINS_URL = "[jenkinsURL]/";
+	private final String server;
+	private final String userAgent;
+	private final String version;
+	private final PrintStream logger;
 
-	private PrintStream logger;
-
-	public Uploader(PrintStream logger, String version) {
-		VERSION = version;
-		USER_AGENT = "TestFairy Jenkins Plugin VERSION:" + Uploader.VERSION;
+	public Uploader(
+		PrintStream logger,
+		String version,
+		String server
+	) {
+		this.server = server;
+		this.version = version;
+		this.userAgent = "TestFairy Jenkins Plugin VERSION: " + version;
 		this.logger = logger;
 	}
 
@@ -75,17 +66,18 @@ public class Uploader {
 //		logger.println("post to  --> " + url);
 
 		HttpPost post = new HttpPost(url);
-		post.addHeader("User-Agent", USER_AGENT);
+		post.addHeader("User-Agent", userAgent);
 		post.setEntity(entity);
 
+		InputStream is = null;
 		try {
 			HttpResponse response = httpClient.execute(post);
-			InputStream is = response.getEntity().getContent();
+			is = response.getEntity().getContent();
 
 			// Improved error handling.
 			int statusCode = response.getStatusLine().getStatusCode();
 			if (statusCode != 200) {
-				String responseBody = new Scanner(is).useDelimiter("\\A").next();
+				String responseBody = new Scanner(is, "UTF-8").useDelimiter("\\A").next();
 				throw new TestFairyException(responseBody);
 			}
 
@@ -102,32 +94,15 @@ public class Uploader {
 			return responseString;
 
 		} catch (Throwable t) {
-
 			if (t instanceof TestFairyException) {
 				// The TestFairyException will be cached in the preform function (only the massage will be printed for the user)
 				throw new TestFairyException(t.getMessage());
 			} else {
 				throw new IOException("Post failed " + t.getMessage() , t);
 			}
+		} finally {
+			Utils.closeSafely(is);
 		}
-	}
-
-
-	/**
-	 * Downloads the entire page at a remote location, onto a local file.
-	 *
-	 * @param url
-	 * @param localFilename
-	 */
-	private void downloadFile(String url, String localFilename) throws IOException {
-		DefaultHttpClient httpClient = buildHttpClient();
-		HttpGet httpget = new HttpGet(url);
-		HttpResponse response = httpClient.execute(httpget);
-		HttpEntity entity = response.getEntity();
-
-		FileOutputStream fis = new FileOutputStream(localFilename);
-		IOUtils.copy(entity.getContent(), fis);
-		fis.close();
 	}
 
 	/**
@@ -145,31 +120,7 @@ public class Uploader {
 		logger.println("Uploading App...");
 		MultipartEntity entity = buildEntity(recorder, apkFilename, mappingFile, changeLog, isInstrumentationOff);
 
-		return post(SERVER + UPLOAD_URL_PATH, entity);
-	}
-
-	/**
-	 * Upload a signed APK using /api/upload-signed REST service.
-	 * @param apkFilename
-	 * @param mappingFile
-	 * @param recorder
-	 * @return JSONObject
-	 * @throws IOException
-	 */
-	public String uploadSignedApk(String apkFilename, String mappingFile, TestFairyBaseRecorder recorder) throws IOException, TestFairyException {
-
-		logger.println("Uploading SignedApk...");
-		MultipartEntity entity = new MultipartEntity();
-
-		addFileEntity(entity, "apk_file", apkFilename);
-		addFileEntity(entity, "proguard_file", mappingFile);
-
-		addEntity(entity, "api_key",  recorder.getApiKey());
-		addEntity(entity, "testers-groups",  recorder.getTestersGroups()); // if omitted, no emails will be sent to testers
-		addEntity(entity, "notify", recorder.getNotifyTesters());
-		addEntity(entity, "auto-update", recorder.getAutoUpdate());
-
-		return post(SERVER + UPLOAD_SIGNED_URL_PATH, entity);
+		return post(this.server + UPLOAD_URL_PATH, entity);
 	}
 
 	/**
@@ -200,6 +151,7 @@ public class Uploader {
 
 		addEntity(entity, "record-on-background", recorder.getRecordOnBackground()); // enable record on background option
 		addEntity(entity, "video", recorder.getIsVideoEnabled());
+		addEntity(entity, "tags", recorder.getTags());
 
 		if (isInstrumentationOff) {
 			addEntity(entity, "auto-update", recorder.getAutoUpdate());
@@ -260,9 +212,6 @@ public class Uploader {
 		if (baseRecorder.getBattery()) {
 			stringBuilder.append(",battery");
 		}
-		if (baseRecorder.getOpenGl()) {
-			stringBuilder.append(",opengl");
-		}
 
 		if(stringBuilder.length() > 0) {
 			// remove the first char (it will be ",")
@@ -272,69 +221,13 @@ public class Uploader {
 		return metrics;
 	}
 
-	/**
-	 * return the path to the signed Apk
-	 * @param environment
-	 * @param apkFilename
-	 * @param recorder
-	 * @return the path to the signed Apk
-	 * @throws IOException
-	 * @throws InterruptedException
-	 */
-	public String signingApk(TestFairyAndroidRecorder.AndroidBuildEnvironment environment, String apkFilename, TestFairyAndroidRecorder recorder) throws IOException, InterruptedException, TestFairyException {
-
-		//remove existing signature
-		String unsignedApkPath =  Utils.createEmptyFile();
-		ApkArchiveWriter writer = new ApkArchiveWriter(new FileOutputStream(unsignedApkPath));
-		ApkArchiveFilterVisitor filterVisitor = new ApkArchiveFilterVisitor(writer);
-		filterVisitor.addFilter("META-INF"+ File.separator + "*");
-		ApkArchiveReader reader = new ApkArchiveReader(apkFilename);
-		reader.accept(filterVisitor);
-
-		JarSignerCommand jarSignerCommand = new JarSignerCommand(environment.jarsignerPath, recorder, unsignedApkPath);
-		String out = exec(jarSignerCommand);
-		if (out.contains("error") || out.contains("unsigned")) {
-			throw new TestFairyException(out);
-		}
-
-		VerifyCommand verifyCommand = new VerifyCommand(environment.jarsignerPath, unsignedApkPath);
-		exec(verifyCommand);
-
-		String apkFilenameZipAlign =  Utils.createEmptyFile();
-		ZipAlignCommand zipAlignCommand = new ZipAlignCommand(environment.zipalignPath, unsignedApkPath, apkFilenameZipAlign);
-		exec(zipAlignCommand);
-
-		return apkFilenameZipAlign;
-	}
-
-	private String exec(List<String> command) throws IOException, InterruptedException , TestFairyException{
-
-		logger.println("exec command: " + command);
-		String outputString;
-		String outputStringToReturn = "";
-
-		ProcessBuilder pb = new ProcessBuilder(command);
-		Process process = pb.start();
-		process.waitFor();
-		DataInputStream curlIn = new DataInputStream(process.getInputStream());
-		while ((outputString = curlIn.readLine()) != null) {
-			outputStringToReturn = outputStringToReturn + outputString;
-		}
-		logger.println("Output: " + outputStringToReturn);
-
-		logger.println("exitValue(): " + process.exitValue());
-		if (process.exitValue() > 0) {
-			throw new TestFairyException((outputStringToReturn.isEmpty()) ? "Error on " + command : outputStringToReturn);
-		}
-		return outputStringToReturn;
-	}
-
-	public static void setServer(EnvVars vars, PrintStream logger) {
-
+	public static String getServer(EnvVars vars, PrintStream logger) {
 		String server = vars.expand("$TESTFAIRY_UPLOADER_SERVER");
 		if (server != null && !server.isEmpty() && !server.equals("$TESTFAIRY_UPLOADER_SERVER")) {
-			SERVER = server;
-			logger.println("The server will be  " + SERVER);
+			logger.println("The server will be  " + server);
+			return server;
+		} else {
+			return "https://upload.testfairy.com";
 		}
 	}
 }

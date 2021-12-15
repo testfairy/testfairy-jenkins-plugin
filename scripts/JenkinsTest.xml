@@ -13,10 +13,11 @@
   <concurrentBuild>false</concurrentBuild>
   <builders/>
   <publishers>
-    <org.jenkinsci.plugins.testfairy.TestFairyAndroidRecorder plugin="testfairy@2.0">
-      <apiKey>5f8d490c554f63cf7784174bcdcb3c87f2447709</apiKey>
+    <org.jenkinsci.plugins.testfairy.TestFairyIosRecorder plugin="testfairy@2.0">
+      <apiKey>b03f1aa64b4f2bd0b8c62efc11e3bf3e02f57795</apiKey>
       <appFile>ham.apk</appFile>
       <mappingFile></mappingFile>
+      <tags>adhoc,production</tags>
       <testersGroups></testersGroups>
       <notifyTesters>false</notifyTesters>
       <autoUpdate>false</autoUpdate>
@@ -35,12 +36,7 @@
       <wifi>true</wifi>
       <gps>false</gps>
       <battery>false</battery>
-      <openGl>false</openGl>
-      <keystorePath>jenkins.keystore</keystorePath>
-      <storepass>android</storepass>
-      <alias>androiddebugkey</alias>
-      <keypass>123456789</keypass>
-    </org.jenkinsci.plugins.testfairy.TestFairyAndroidRecorder>
+    </org.jenkinsci.plugins.testfairy.TestFairyIosRecorder>
   </publishers>
   <buildWrappers/>
 </project>

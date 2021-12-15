@@ -49,8 +49,12 @@ public class Utils implements Serializable {
 	}
 
 	private static String getChangeLogFromFile(String file) {
+		BufferedReader reader = null;
 		try {
-			BufferedReader reader = new BufferedReader( new FileReader (file));
+		 	reader = new BufferedReader(new InputStreamReader(
+				new FileInputStream(file),
+				"UTF-8"
+			));
 			String line = null;
 			StringBuilder  stringBuilder = new StringBuilder();
 			String ls = System.getProperty("line.separator");
@@ -64,7 +68,13 @@ public class Utils implements Serializable {
 
 		} catch (IOException e) {
 			return null;
+		} finally {
+			closeSafely(reader);
 		}
+	}
+
+	public static void closeSafely(Closeable reader) {
+		if (reader != null) { try { reader.close(); } catch (Exception e) { throw new RuntimeException(e); } }
 	}
 
 	public static String downloadFromUrl(String urlString, PrintStream logger) throws IOException {
@@ -106,18 +116,6 @@ public class Utils implements Serializable {
 		return tempFile.getPath();
 	}
 
-	public static String getApkFilePath(String appFile, TestFairyAndroidRecorder.AndroidBuildEnvironment testFairyEnvironment, EnvVars vars) throws TestFairyException {
-		if (appFile == null || appFile.length() == 0) {
-			throw new TestFairyException("Can't find a APK " + appFile);
-		}
-		String toReturn = vars.expand(appFile);
-		if(Validation.isValidAPK(testFairyEnvironment.jarsignerPath, toReturn)) {
-			return toReturn;
-		} else {
-			throw new TestFairyException("Can't validate your apk, the following command failed: " + testFairyEnvironment.jarsignerPath + " -verify " + toReturn);
-		}
-	}
-
 	public static String getFilePath(String file, String name, EnvVars vars, Boolean required) throws TestFairyException {
 		if (file == null || file.length() == 0){
 			if (required) {
@@ -147,11 +145,12 @@ public class Utils implements Serializable {
 		return tempFile.getPath();
 	}
 
-	public static void setJenkinsUrl(EnvVars vars) {
-
+	public static String getJenkinsUrl(EnvVars vars) {
 		String hudsonUrl = vars.expand("$HUDSON_URL");
 		if (hudsonUrl != null && !hudsonUrl.isEmpty() && !hudsonUrl.equals("$HUDSON_URL")) {
-			Uploader.JENKINS_URL = hudsonUrl;
+			return hudsonUrl;
+		} else {
+			return "[jenkinsURL]/";
 		}
 	}
 
