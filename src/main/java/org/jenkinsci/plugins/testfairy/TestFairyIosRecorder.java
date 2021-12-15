@@ -16,6 +16,9 @@ import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import hudson.util.Secret;
 import net.sf.json.JSONObject;
+import org.jenkinsci.plugins.testfairy.impl.RemoteRecorderCallable;
+import org.jenkinsci.plugins.testfairy.impl.TestFairyBaseRecorder;
+import org.jenkinsci.plugins.testfairy.impl.Utils;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
@@ -90,7 +93,7 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 			String changeLog = Utils.extractChangeLog(vars, build.getChangeSet(), listener.getLogger());
 
 			try {
-				launcher.getChannel().call(new IosRemoteRecorder(listener, this, vars, changeLog));
+				launcher.getChannel().call(new IosRemoteRecorderCallable(listener, this, vars, changeLog));
 			} catch (Throwable ue) {
 				throw new TestFairyException(ue.getMessage(), ue);
 			}
@@ -103,8 +106,8 @@ public class TestFairyIosRecorder extends TestFairyBaseRecorder {
 		}
 	}
 
-	class IosRemoteRecorder extends RemoteRecorder {
-		public IosRemoteRecorder(BuildListener listener, TestFairyIosRecorder testFairyIosRecorder, EnvVars vars, String changeLog) {
+	class IosRemoteRecorderCallable extends RemoteRecorderCallable {
+		public IosRemoteRecorderCallable(BuildListener listener, TestFairyIosRecorder testFairyIosRecorder, EnvVars vars, String changeLog) {
 			super(listener, testFairyIosRecorder, vars, changeLog);
 		}
 

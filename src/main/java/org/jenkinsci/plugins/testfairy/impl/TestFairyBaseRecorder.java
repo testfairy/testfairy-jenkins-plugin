@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.testfairy;
+package org.jenkinsci.plugins.testfairy.impl;
 
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Recorder;

@@ -8,6 +8,8 @@
     </parent>
 
     <properties>
+        <revision>4.17.2</revision>
+        <changelist>-SNAPSHOT</changelist>
         <!-- Baseline Jenkins version you use to build the plugin. Users must have this version or newer to run. -->
         <jenkins.version>1.596</jenkins.version>
 
@@ -36,14 +38,13 @@
     <artifactId>TestFairy</artifactId>
     <name>TestFairy Plugin</name>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/TestFairy+Plugin</url>
-    <version>4.17.2-SNAPSHOT</version>
+    <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
 
     <scm>
         <connection>scm:git:ssh://github.com/jenkinsci/testfairy-plugin.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/testfairy-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/testfairy-plugin</url>
-        <tag>TestFairy-4.9</tag>
     </scm>
 
     <licenses>

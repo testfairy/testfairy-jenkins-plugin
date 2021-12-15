@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export TF_API_KEY=$TF_API_KEY
+
 if [ ! -f $1 ]; then
 	echo "TestFairy plugin hpl file not found at path [$1]."
 	exit 2

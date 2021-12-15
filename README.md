@@ -7,7 +7,7 @@ For more details and instruction check out [https://wiki.jenkins-ci.org/display/
 
 ```bash
 # Build
-docker run -it --rm -v `pwd`:`pwd` -w `pwd` androidsdk/android-30:latest bash scripts/build.sh
+docker run -it --rm -v `pwd`:`pwd` -w `pwd` --env TF_API_KEY=<yourkey> androidsdk/android-30:latest bash scripts/build.sh
 
 # Use built binary
 ls -a target/TestFairy.hpi
@@ -17,7 +17,7 @@ ls -a target/TestFairy.hpi
 
 ```bash
 # Launch development environment
-docker run -it --rm -v `pwd`:`pwd` -w `pwd` androidsdk/android-30:latest bash
+docker run -it --rm -v `pwd`:`pwd` -w `pwd` --env TF_API_KEY=<yourkey> androidsdk/android-30:latest bash
 
 # inside docker
     # Attempt first build and prepare environment
@@ -47,6 +47,5 @@ git ...
 
 1. Merge a PR to master and create a release. (ad-hoc Jenkins)
 2. Merge repo to https://github.com/jenkinsci/testfairy-plugin (public Jenkins)
-3. ?
 
 

@@ -7,6 +7,8 @@ if [ ! -f $JENKINS_TEST_CONFIG ]; then
 	exit 2
 fi
 
+sed "s/REPLACE_ME/$TF_API_KEY/g" $JENKINS_TEST_CONFIG || echo "Api key already set"
+
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-plugins
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ delete-job UploadTest && echo "Deleting previous job..."
 java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ create-job UploadTest < $JENKINS_TEST_CONFIG
