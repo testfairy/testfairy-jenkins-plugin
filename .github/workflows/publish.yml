@@ -28,17 +28,16 @@ jobs:
           export TF_API_KEY=${{ secrets.TF_API_KEY }}
           echo "CI_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-          # TODO : Replace version in pom.xml
+          set -x
+
+          sed -i "s/4.17.2/${GITHUB_REF#refs/*/}/g" pom.xml
+          sed -i "s/-SNAPSHOT//g" pom.xml
+          cat pom.xml
 
           bash scripts/build.sh
 
-          set -x
-
           mv target/TestFairy.hpi target/TestFairy-${GITHUB_REF#refs/*/}.hpi
           ls -l target
-
-          # TODO : Rename hpi file to include version
-          # TODO : Upload to Github releases
         shell: bash
 
       - name: Upload release artifacts
