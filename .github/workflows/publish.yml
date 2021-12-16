@@ -34,7 +34,7 @@ jobs:
 
           set -x
 
-          mv target/TestFairy.hpi target/TestFairy-${{ env.CI_TAG }}.hpi
+          mv target/TestFairy.hpi target/TestFairy-${GITHUB_REF#refs/*/}.hpi
           ls -l target
 
           # TODO : Rename hpi file to include version
