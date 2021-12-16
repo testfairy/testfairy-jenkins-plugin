@@ -32,7 +32,10 @@ jobs:
 
           bash scripts/build.sh
 
-          mv target/TestFairy.hpi target/TestFairy-${CI_TAG}.hpi
+          set -x
+
+          mv target/TestFairy.hpi target/TestFairy-${{ env.CI_TAG }}.hpi
+          ls -l target
 
           # TODO : Rename hpi file to include version
           # TODO : Upload to Github releases

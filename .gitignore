@@ -24,6 +24,7 @@
 target/
 scripts/jenkins.war
 scripts/TestFairy.hpi
-
+notes.txt
+.mvn
 
 
