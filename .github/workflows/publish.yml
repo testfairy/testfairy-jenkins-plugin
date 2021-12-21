@@ -1,4 +1,4 @@
-name: Publish SDK to testfairy-maven repo as a PR
+name: Publish to Github
 
 on:
   push:
