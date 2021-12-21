@@ -33,6 +33,8 @@ jobs:
 
           bash scripts/build.sh
 
+          git config --global user.email "devtools+jenkins-publish@testfairy.com"
+          git config --global user.name "Automatic Releases"
           git add .
           git commit -m "Ready for release"
         shell: bash
