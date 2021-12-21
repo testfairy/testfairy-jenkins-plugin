@@ -46,6 +46,7 @@ git ...
 # Publish
 
 1. Merge a PR to master and create a release. (ad-hoc Jenkins)
-2. Merge repo to https://github.com/jenkinsci/testfairy-plugin (public Jenkins)
+2. Merge this repo to https://github.com/jenkinsci/testfairy-plugin origin. (public Jenkins)
+3. Create a release in https://github.com/jenkinsci/testfairy-plugin repo.
 
 
