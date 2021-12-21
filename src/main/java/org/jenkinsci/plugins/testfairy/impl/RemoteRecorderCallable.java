@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.testfairy;
+package org.jenkinsci.plugins.testfairy.impl;
 
 import hudson.EnvVars;
 import hudson.model.BuildListener;
@@ -7,7 +7,7 @@ import org.jenkinsci.remoting.RoleChecker;
 
 import java.io.Serializable;
 
-public abstract class RemoteRecorder implements Callable<String, Throwable>, Serializable {
+public abstract class RemoteRecorderCallable implements Callable<String, Throwable>, Serializable {
 
 	protected BuildListener listener;
 	protected EnvVars vars;
@@ -15,7 +15,7 @@ public abstract class RemoteRecorder implements Callable<String, Throwable>, Ser
 	protected String version;
 	protected String changeLog;
 
-	public RemoteRecorder(BuildListener listener, TestFairyBaseRecorder testFairyIosRecorder, EnvVars vars, String changeLog) {
+	public RemoteRecorderCallable(BuildListener listener, TestFairyBaseRecorder testFairyIosRecorder, EnvVars vars, String changeLog) {
 		this.listener = listener;
 		this.recorder = testFairyIosRecorder;
 		this.version = Utils.getVersion(this.getClass());
@@ -23,7 +23,7 @@ public abstract class RemoteRecorder implements Callable<String, Throwable>, Ser
 		this.vars = vars;
 	}
 
-	public RemoteRecorder() {}
+	public RemoteRecorderCallable() {}
 
 	@Override
 	public void checkRoles(RoleChecker roleChecker) throws SecurityException {}

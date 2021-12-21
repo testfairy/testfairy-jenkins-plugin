@@ -15,8 +15,8 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.jenkinsci.plugins.testfairy.TestFairyBaseRecorder;
-import org.jenkinsci.plugins.testfairy.Utils;
+import org.jenkinsci.plugins.testfairy.impl.TestFairyBaseRecorder;
+import org.jenkinsci.plugins.testfairy.impl.Utils;
 
 import java.io.*;
 import java.util.Scanner;
