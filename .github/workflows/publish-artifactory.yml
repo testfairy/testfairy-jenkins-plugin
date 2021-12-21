@@ -32,6 +32,9 @@ jobs:
           cat pom.xml
 
           bash scripts/build.sh
+
+          git add .
+          git commit -m "Ready for release"
         shell: bash
       - name: Release
         uses: jenkins-infra/jenkins-maven-cd-action@v1.2.0
