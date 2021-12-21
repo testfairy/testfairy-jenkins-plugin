@@ -3,9 +3,12 @@
 name: Publish to Artifactory
 on:
   workflow_dispatch:
-  check_run:
-    types:
-      - completed
+  push:
+    tags:
+      - '*'
+#  check_run:
+#    types:
+#      - completed
 
 jobs:
   validate:
