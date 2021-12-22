@@ -1,10 +1,12 @@
 # see https://www.jenkins.io/redirect/continuous-delivery-of-plugins
 
 name: Publish to Artifactory
+
 on:
-  push:
-    tags:
-      - '*'
+  workflow_dispatch:
+  check_run:
+    types:
+      - completed
 
 jobs:
   release:
@@ -23,13 +25,8 @@ jobs:
       - name: Build and test
         run: |
           export TF_API_KEY=${{ secrets.TF_API_KEY }}
-          echo "CI_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
           set -x
-
-          sed -i "s/4.17.2/${GITHUB_REF#refs/*/}/g" pom.xml
-          sed -i "s/-SNAPSHOT//g" pom.xml
-          cat pom.xml
 
           bash scripts/build.sh
 
