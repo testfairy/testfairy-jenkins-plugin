@@ -45,8 +45,9 @@ git ...
 
 # Publish
 
-1. Merge a PR to master and create a release. (ad-hoc Jenkins)
-2. Merge this repo to https://github.com/jenkinsci/testfairy-plugin origin. (public Jenkins)
-3. Create a release in https://github.com/jenkinsci/testfairy-plugin repo.
+1. Merge a PR to master.
+2. Merge this repo to [origin](https://github.com/jenkinsci/testfairy-plugin).
+3. [Trigger](https://github.com/jenkinsci/testfairy-plugin/actions/workflows/publish-artifactory.yml) `Publish to Artifactory` workflow. 
+4. Check [release](https://get.jenkins.io/plugins/TestFairy/) here once CI completes.
 
 
