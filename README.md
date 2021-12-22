@@ -46,8 +46,8 @@ git ...
 # Publish
 
 1. Merge a PR to master.
-2. Merge this repo to [origin](https://github.com/jenkinsci/testfairy-plugin).
+2. Merge this repo to [origin](https://github.com/jenkinsci/testfairy-plugin/compare/master...testfairy:master).
 3. [Trigger](https://github.com/jenkinsci/testfairy-plugin/actions/workflows/publish-artifactory.yml) `Publish to Artifactory` workflow. 
-4. Check [release](https://get.jenkins.io/plugins/TestFairy/) here once CI completes.
+4. Check release [here](https://get.jenkins.io/plugins/TestFairy/) once CI completes. (sometimes it takes a few extra minutes)
 
 
