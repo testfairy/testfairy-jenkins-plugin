@@ -9,16 +9,16 @@ fi
 
 sed -i "s/REPLACE_ME/$TF_API_KEY/g" $JENKINS_TEST_CONFIG || echo "Api key already set"
 
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-plugins
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ delete-job UploadTest && echo "Deleting previous job..."
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ create-job UploadTest < $JENKINS_TEST_CONFIG
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ list-jobs
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:$TEMP_JENKINS_ADMIN_PASS list-plugins
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:$TEMP_JENKINS_ADMIN_PASS delete-job UploadTest && echo "Deleting previous job..."
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:$TEMP_JENKINS_ADMIN_PASS create-job UploadTest < $JENKINS_TEST_CONFIG
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:$TEMP_JENKINS_ADMIN_PASS list-jobs
 
 echo "Testing"
-java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build UploadTest
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:$TEMP_JENKINS_ADMIN_PASS build UploadTest
 
 while true; do
-	java -jar ~/.jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ console UploadTest > /tmp/console.log
+	java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:$TEMP_JENKINS_ADMIN_PASS console UploadTest > /tmp/console.log
 	sleep 2
 	echo console...
 	cat /tmp/console.log

@@ -26,3 +26,7 @@ scripts/jenkins.war
 scripts/TestFairy.hpi
 notes.txt
 .DS_Store
+html-to-markdown.md
+jenkins-cli.jar
+jenkins.war
+scripts/jenkins-cli.jar
