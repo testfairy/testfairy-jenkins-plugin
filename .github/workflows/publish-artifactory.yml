@@ -33,7 +33,7 @@ jobs:
           git config --global user.email "devtools+jenkins-publish@testfairy.com"
           git config --global user.name "Automatic Releases"
           git add .
-          git commit -m "Ready for release"
+          git commit -m "Ready for release" || echo "Nothing to commit, releasing as is"
         shell: bash
       - name: Release
         uses: jenkins-infra/jenkins-maven-cd-action@v1.2.0
