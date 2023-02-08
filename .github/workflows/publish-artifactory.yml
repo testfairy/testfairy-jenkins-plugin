@@ -36,7 +36,7 @@ jobs:
           git commit -m "Ready for release" || echo "Nothing to commit, releasing as is"
         shell: bash
       - name: Release
-        uses: jenkins-infra/jenkins-maven-cd-action@v1.2.0
+        uses: jenkins-infra/jenkins-maven-cd-action@v1.3.3
         continue-on-error: true
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
